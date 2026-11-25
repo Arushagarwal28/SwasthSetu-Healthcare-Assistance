@@ -1,0 +1,10 @@
+{
+  "health": {
+    "ok": "Server is running"
+  },
+  "errors": {
+    "notFound": "Resource not found",
+    "validationFailed": "Validation failed",
+    "internal": "Internal server error"
+  }
+}

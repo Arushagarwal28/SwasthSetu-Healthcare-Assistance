@@ -1,0 +1,609 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PATIENT
+  HELPER
+  HOSPITAL_STAFF
+  ADMIN
+}
+
+model User {
+  id                 String                      @id @default(uuid())
+  email              String                      @unique
+  passwordHash       String
+  role               Role
+  isActive           Boolean                     @default(true)
+  createdAt          DateTime                    @default(now())
+  updatedAt          DateTime                    @updatedAt
+  refreshTokens      RefreshToken[]
+  patient            Patient?
+  helperProfile      HelperProfile?
+  hospitalStaffLinks HospitalStaffFacilityLink[]
+  childrenRegistered       Child[]                   @relation("ChildRegisteredBy")
+  dosesRecorded            ChildDose[]               @relation("DoseRecordedBy")
+  doseEvents               ChildDoseEvent[]          @relation("DoseEventChangedBy")
+  vaccinationNotifications VaccinationNotification[]
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("refresh_tokens")
+}
+
+enum FacilityType {
+  PHC
+  CHC
+  HOSPITAL
+  CLINIC
+  OTHER
+}
+
+model Patient {
+  id                String         @id @default(uuid())
+  userId            String?        @unique
+  user              User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName          String
+  dateOfBirth       DateTime
+  gender            String
+  phone             String?
+  email             String?
+  address           String?
+  createdByHelperId String?
+  createdByHelper   HelperProfile? @relation("HelperCreatedPatients", fields: [createdByHelperId], references: [id])
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  referrals Referral[]
+  helperLinks PatientHelperLink[]
+  assessments Assessment[]
+
+  @@map("patients")
+}
+
+model HelperProfile {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName  String
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  facilityLinks HelperFacilityLink[]
+  patientLinks  PatientHelperLink[]
+  createdPatients Patient[] @relation("HelperCreatedPatients")
+
+  @@map("helper_profiles")
+}
+
+model Facility {
+  id          String              @id @default(uuid())
+  name        String
+  type        FacilityType
+  address     String
+  latitude    Float?
+  longitude   Float?
+  phone       String?
+  isActive    Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  specialties FacilitySpecialty[]
+
+  helperLinks        HelperFacilityLink[]
+  hospitalStaffLinks HospitalStaffFacilityLink[]
+
+  referralsAsSource      Referral[] @relation("ReferralSource")
+  referralsAsDestination Referral[] @relation("ReferralDestination")
+
+  pinCode           String?
+  district          String?
+  vaccineServices   FacilityVaccine[]
+  childrenAssigned  Child[]           @relation("ChildAssignedFacility")
+  dosesAdministered ChildDose[]       @relation("DoseAdministeredAt")
+
+  @@index([pinCode])
+  @@map("facilities")
+}
+
+// Which Helper is associated with which Facility
+model HelperFacilityLink {
+  id         String        @id @default(uuid())
+  helperId   String
+  helper     HelperProfile @relation(fields: [helperId], references: [id], onDelete: Cascade)
+  facilityId String
+  facility   Facility      @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  createdAt  DateTime      @default(now())
+
+  @@unique([helperId, facilityId])
+  @@map("helper_facility_links")
+}
+
+// Which Hospital Staff user is associated with which Facility
+model HospitalStaffFacilityLink {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  facilityId String
+  facility   Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, facilityId])
+  @@map("hospital_staff_facility_links")
+}
+
+// Which Helper is authorized to act on behalf of which Patient
+model PatientHelperLink {
+  id        String        @id @default(uuid())
+  patientId String
+  patient   Patient       @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  helperId  String
+  helper    HelperProfile @relation(fields: [helperId], references: [id], onDelete: Cascade)
+  createdAt DateTime      @default(now())
+
+  @@unique([patientId, helperId])
+  @@map("patient_helper_links")
+}
+
+enum AssessmentStatus {
+  CREATED
+  SYMPTOMS_ADDED
+  IN_PROGRESS
+  SUBMITTED
+  COMPLETED
+}
+
+model Assessment {
+  id          String           @id @default(uuid())
+  patientId   String
+  patient     Patient          @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  createdById String // userId of whoever created it — Patient themself OR their Helper
+  status      AssessmentStatus @default(CREATED)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  completedAt DateTime?
+  referrals Referral[]
+  predictedDisease     String?
+  predictionConfidence Float?
+  predictionDetails    Json?
+
+  symptoms        AssessmentSymptom[]
+  followUpAnswers FollowUpAnswer[]
+
+  @@map("assessments")
+}
+
+model Symptom {
+  id              String              @id @default(uuid())
+  key             String              @unique
+  name            String
+  category        String?
+  assessments     AssessmentSymptom[]
+  followUpAnswers FollowUpAnswer[]
+
+  @@map("symptoms")
+}
+
+model AssessmentSymptom {
+  id           String     @id @default(uuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  symptomId    String
+  symptom      Symptom    @relation(fields: [symptomId], references: [id])
+  severity     String? // e.g. MILD / MODERATE / SEVERE
+  durationDays Int?
+  createdAt    DateTime   @default(now())
+
+  @@unique([assessmentId, symptomId])
+  @@map("assessment_symptoms")
+}
+
+model FollowUpAnswer {
+  id           String     @id @default(uuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  question     String
+  answer       String
+  symptomId    String?
+  symptom      Symptom?   @relation(fields: [symptomId], references: [id])
+  createdAt    DateTime   @default(now())
+
+  @@map("follow_up_answers")
+}
+
+enum UrgencyLevel {
+  LOW
+  MODERATE
+  HIGH
+  CRITICAL
+}
+
+model DiseaseInfo {
+  id                String       @id @default(uuid())
+  diseaseName       String       @unique // must exactly match label_encoder classes from the ML service
+  urgency           UrgencyLevel
+  requiredSpecialty String // e.g. "General Medicine", "Cardiology", "Dermatology"
+  description       String?
+
+  @@map("disease_info")
+}
+
+model FacilitySpecialty {
+  id         String   @id @default(uuid())
+  facilityId String
+  facility   Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  specialty  String
+  createdAt  DateTime @default(now())
+
+  @@unique([facilityId, specialty])
+  @@map("facility_specialties")
+}
+
+enum ReferralStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  RESCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+model Referral {
+  id                     String         @id @default(uuid())
+  assessmentId           String
+  assessment             Assessment     @relation(fields: [assessmentId], references: [id])
+  patientId               String
+  patient                 Patient        @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  sourceFacilityId        String?
+  sourceFacility           Facility?      @relation("ReferralSource", fields: [sourceFacilityId], references: [id])
+  destinationFacilityId   String
+  destinationFacility     Facility       @relation("ReferralDestination", fields: [destinationFacilityId], references: [id])
+  createdById              String         // userId of whoever created it (Patient or Helper)
+  status                   ReferralStatus @default(PENDING)
+  notes                    String?
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @updatedAt
+  scheduledAt  DateTime?
+  hospitalNote String?
+  history ReferralHistory[]
+
+  @@map("referrals")
+}
+
+model ReferralHistory {
+  id          String          @id @default(uuid())
+  referralId  String
+  referral    Referral        @relation(fields: [referralId], references: [id], onDelete: Cascade)
+  fromStatus  ReferralStatus?
+  toStatus    ReferralStatus
+  changedById String          // userId who made this change
+  note        String?
+  createdAt   DateTime        @default(now())
+
+  @@map("referral_history")
+}
+
+enum AgeUnit {
+  DAYS
+  WEEKS
+  MONTHS
+  YEARS
+}
+
+enum ApplicabilityRule {
+  ALWAYS
+  JE_ENDEMIC_DISTRICT
+  FEMALE_ONLY
+}
+
+enum DoseRecordStatus {
+  PENDING
+  ADMINISTERED
+  POSTPONED
+  NOT_GIVEN
+}
+
+enum ReminderKind {
+  TWO_DAYS_BEFORE
+  ONE_DAY_BEFORE
+  ON_DUE_DATE
+  ONE_DAY_AFTER
+}
+
+enum ReminderStatus {
+  PENDING
+  PROCESSING
+  SENT
+  FAILED
+  CANCELLED
+  SKIPPED
+}
+
+enum DeliveryChannel {
+  SMS
+  IN_APP
+  EMAIL
+}
+
+enum DeliveryStatus {
+  SENT
+  DELIVERED
+  FAILED
+  SKIPPED
+}
+
+enum PreferredLanguage {
+  EN
+  HI
+}
+
+enum ChildGender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+// ---------- Schedule (administrator-configurable) ----------
+
+model Vaccine {
+  id          String   @id @default(uuid())
+  code        String   @unique
+  name        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  scheduleEntries  VaccineScheduleEntry[]
+  facilityServices FacilityVaccine[]
+
+  @@map("vaccines")
+}
+
+// One dose of one vaccine: "PCV-2 is due at 14 weeks". Editing an entry affects
+// children registered afterwards; existing children keep the dates they were given.
+model VaccineScheduleEntry {
+  id            String            @id @default(uuid())
+  vaccineId     String
+  vaccine       Vaccine           @relation(fields: [vaccineId], references: [id], onDelete: Cascade)
+  doseNumber    Int
+  doseLabel     String
+  ageValue      Int
+  ageUnit       AgeUnit
+  ageLabel      String
+  applicability ApplicabilityRule @default(ALWAYS)
+  sortOrder     Int               @default(0)
+  isActive      Boolean           @default(true)
+  notes         String?
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  doses ChildDose[]
+
+  @@unique([vaccineId, doseNumber])
+  @@map("vaccine_schedule_entries")
+}
+
+// Which vaccines a facility actually offers (never assume every facility offers every vaccine)
+model FacilityVaccine {
+  id          String   @id @default(uuid())
+  facilityId  String
+  facility    Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  vaccineId   String
+  vaccine     Vaccine  @relation(fields: [vaccineId], references: [id], onDelete: Cascade)
+  sessionInfo String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  @@unique([facilityId, vaccineId])
+  @@map("facility_vaccines")
+}
+
+// ---------- Children ----------
+
+model Child {
+  id           String @id @default(uuid())
+  // Human-friendly record ID, shown as SSV-000123
+  recordNumber Int    @unique @default(autoincrement())
+
+  fullName         String
+  dateOfBirth      DateTime    @db.Date
+  gender           ChildGender
+  birthWeightGrams Int?
+
+  motherName      String
+  fatherName      String
+  guardianName    String?
+  primaryMobile   String
+  alternateMobile String?
+  email           String?
+
+  addressLine String
+  village     String
+  district    String
+  state       String
+  pinCode     String
+  latitude    Float?
+  longitude   Float?
+
+  // JE vaccine applies only in endemic districts; set by staff at registration
+  jeEndemicArea Boolean @default(false)
+
+  preferredLanguage   PreferredLanguage @default(EN)
+  smsConsent          Boolean           @default(false)
+  smsConsentAt        DateTime?
+  consentRecordedById String?
+
+  assignedFacilityId String?
+  assignedFacility   Facility? @relation("ChildAssignedFacility", fields: [assignedFacilityId], references: [id], onDelete: SetNull)
+
+  registeredById String
+  registeredBy   User   @relation("ChildRegisteredBy", fields: [registeredById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  doses         ChildDose[]
+  reminders     VaccinationReminder[]
+  notifications VaccinationNotification[]
+
+  @@index([assignedFacilityId])
+  @@index([registeredById])
+  @@index([primaryMobile])
+  @@index([pinCode])
+  @@index([dateOfBirth])
+  @@map("children")
+}
+
+// One row per dose per child. Vaccine and dose names are copied in so later
+// schedule edits never rewrite a child's medical record.
+model ChildDose {
+  id       String @id @default(uuid())
+  childId  String
+  child    Child  @relation(fields: [childId], references: [id], onDelete: Cascade)
+
+  scheduleEntryId String?
+  scheduleEntry   VaccineScheduleEntry? @relation(fields: [scheduleEntryId], references: [id], onDelete: SetNull)
+
+  vaccineCode String
+  vaccineName String
+  doseNumber  Int
+  doseLabel   String
+  ageLabel    String
+
+  originalDueDate DateTime @db.Date // calculated from the schedule at registration
+  dueDate         DateTime @db.Date // current due date (changes if postponed)
+
+  recordedStatus DoseRecordStatus @default(PENDING)
+  administeredOn DateTime?        @db.Date
+
+  administeredFacilityId String?
+  administeredFacility   Facility? @relation("DoseAdministeredAt", fields: [administeredFacilityId], references: [id], onDelete: SetNull)
+
+  recordedById String?
+  recordedBy   User?   @relation("DoseRecordedBy", fields: [recordedById], references: [id], onDelete: SetNull)
+
+  isHistorical Boolean @default(false) // given before the child was registered
+  notes        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events        ChildDoseEvent[]
+  reminders     VaccinationReminder[]
+  notifications VaccinationNotification[]
+
+  @@unique([childId, vaccineCode, doseNumber])
+  @@index([childId])
+  @@index([dueDate, recordedStatus])
+  @@index([administeredFacilityId])
+  @@map("child_doses")
+}
+
+// Audit trail: every status or due-date change, and who made it
+model ChildDoseEvent {
+  id          String            @id @default(uuid())
+  doseId      String
+  dose        ChildDose         @relation(fields: [doseId], references: [id], onDelete: Cascade)
+  fromStatus  DoseRecordStatus?
+  toStatus    DoseRecordStatus
+  fromDueDate DateTime?         @db.Date
+  toDueDate   DateTime?         @db.Date
+  changedById String
+  changedBy   User              @relation("DoseEventChangedBy", fields: [changedById], references: [id])
+  note        String?
+  createdAt   DateTime          @default(now())
+
+  @@index([doseId])
+  @@map("child_dose_events")
+}
+
+// ---------- Reminders ----------
+
+// Four rows per (dose, due date): 2 days before, 1 day before, on the day, 1 day after.
+// The unique key makes scheduling idempotent; PENDING -> PROCESSING is claimed
+// atomically so a job that runs twice cannot send twice.
+model VaccinationReminder {
+  id      String    @id @default(uuid())
+  doseId  String
+  dose    ChildDose @relation(fields: [doseId], references: [id], onDelete: Cascade)
+  childId String
+  child   Child     @relation(fields: [childId], references: [id], onDelete: Cascade)
+
+  kind            ReminderKind
+  dueDateSnapshot DateTime       @db.Date // the due date this reminder was scheduled against
+  scheduledFor    DateTime // exact instant (09:00 IST on the target day)
+
+  status        ReminderStatus @default(PENDING)
+  skipReason    String?
+  attemptCount  Int            @default(0)
+  nextAttemptAt DateTime?
+  lastError     String?
+  processedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deliveries    ReminderDelivery[]
+  notifications VaccinationNotification[]
+
+  @@unique([doseId, kind, dueDateSnapshot])
+  @@index([status, scheduledFor])
+  @@index([childId])
+  @@map("vaccination_reminders")
+}
+
+// Every delivery attempt, per channel, with the provider's response
+model ReminderDelivery {
+  id         String              @id @default(uuid())
+  reminderId String
+  reminder   VaccinationReminder @relation(fields: [reminderId], references: [id], onDelete: Cascade)
+
+  channel           DeliveryChannel
+  status            DeliveryStatus
+  provider          String? // 'mock', or the real provider's name
+  recipientMasked   String? // e.g. ******1234 — the full number is not duplicated here
+  templateKey       String?
+  providerMessageId String?
+  providerResponse  Json?
+  errorMessage      String?
+  attemptNumber     Int             @default(1)
+  attemptedAt       DateTime        @default(now())
+
+  @@unique([reminderId, channel, attemptNumber])
+  @@index([reminderId])
+  @@map("reminder_deliveries")
+}
+
+// In-app notifications for the people who manage the child (parents have no accounts)
+model VaccinationNotification {
+  id         String               @id @default(uuid())
+  userId     String
+  user       User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  childId    String
+  child      Child                @relation(fields: [childId], references: [id], onDelete: Cascade)
+  doseId     String
+  dose       ChildDose            @relation(fields: [doseId], references: [id], onDelete: Cascade)
+  reminderId String?
+  reminder   VaccinationReminder? @relation(fields: [reminderId], references: [id], onDelete: SetNull)
+  title      String
+  body       String
+  readAt     DateTime?
+  createdAt  DateTime             @default(now())
+
+  @@unique([userId, reminderId])
+  @@index([userId, readAt])
+  @@map("vaccination_notifications")
+}
