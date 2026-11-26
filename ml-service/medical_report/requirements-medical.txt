@@ -1,0 +1,23 @@
+# Medical report OCR service (Phase 1) - separate from requirements.txt.
+# Installed into ml-service/venv with --upgrade-strategy only-if-needed so the
+# disease-prediction pins (numpy, scikit-learn, pandas, scipy) stay untouched.
+
+# --- OCR / document parsing (CPU only) ---
+pdfplumber==0.11.11
+pdfminer.six==20260107
+pypdfium2==5.15.2
+pytesseract==0.3.13
+opencv-python-headless==5.1.0.95
+Pillow==13.0.0
+
+# --- HTTP layer (FastAPI already pinned in requirements.txt) ---
+python-multipart==0.0.34
+
+# --- Test tooling ---
+pytest==9.2.0
+httpx==0.28.1
+
+# Transitive pins resolved by pip for reproducibility:
+#   charset-normalizer==3.5.3, cryptography==50.0.2, cffi==2.1.1, pycparser==3.12,
+#   certifi==2026.11.20, httpcore==1.0.9, pluggy==1.7.0, iniconfig==2.3.1,
+#   packaging==26.4, pygments==2.21.0

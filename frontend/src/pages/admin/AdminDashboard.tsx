@@ -11,6 +11,7 @@ import ErrorBlock from '../../components/ui/ErrorBlock';
 import AdminFacilityCard from '../../components/admin/AdminFacilityCard';
 import FacilityFormModal from '../../components/admin/FacilityFormModal';
 import VaccinationModule from '../vaccination/VaccinationModule';
+import ReportModule from '../../modules/reports/ReportModule';
 
 function CardSkeleton() {
   return (
@@ -78,6 +79,9 @@ function AdminFacilitiesHome() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <Link to="/admin/reports" className={secondaryButtonLink}>
+              Medical Reports
+            </Link>
             <Link to="/admin/vaccination" className={secondaryButtonLink}>
               Vaccination Tracker
             </Link>
@@ -163,6 +167,10 @@ export default function AdminDashboard() {
             dashboardPath="/admin"
           />
         }
+      />
+      <Route
+        path="reports/*"
+        element={<ReportModule role="ADMIN" basePath="/admin/reports" />}
       />
     </Routes>
   );

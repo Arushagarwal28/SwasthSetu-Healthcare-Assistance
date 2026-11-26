@@ -9,6 +9,7 @@ import DashboardShell from '../../components/layout/DashboardShell';
 import ServicesSection, {
   PLANNED_SERVICES,
   REFERRAL_SERVICE,
+  medicalReportServiceItem,
 } from '../../components/dashboard/ServicesSection';
 import MyReferralsSection from '../../components/referral/MyReferralsSection';
 import type { ServiceItem } from '../../components/dashboard/ServicesSection';
@@ -20,6 +21,7 @@ import { primaryButtonLink, secondaryButtonLink } from '../../components/ui/butt
 import AssessmentPage from '../patient/assessment/AssessmentPage';
 import RecommendedFacilitiesPage from '../shared/RecommendedFacilitiesPage';
 import VaccinationModule from '../vaccination/VaccinationModule';
+import ReportModule from '../../modules/reports/ReportModule';
 
 const initials = (fullName: string) =>
   fullName
@@ -106,7 +108,8 @@ function HelperDashboardHome() {
         </Link>
       ),
     },
-    ...PLANNED_SERVICES.filter((s) => s.key !== 'vaccination'),
+    medicalReportServiceItem('/helper/reports'),
+    ...PLANNED_SERVICES.filter((s) => s.key !== 'vaccination' && s.key !== 'report'),
   ];
 
   return (
@@ -335,6 +338,10 @@ export default function HelperDashboard() {
             dashboardPath="/helper"
           />
         }
+      />
+      <Route
+        path="reports/*"
+        element={<ReportModule role="HELPER" basePath="/helper/reports" />}
       />
     </Routes>
   );

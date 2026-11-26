@@ -1,0 +1,952 @@
+{
+  "en": {
+    "language": "en",
+    "provider": "rule-based",
+    "document_id": null,
+    "summary": {
+      "language": "en",
+      "title": "Simplified summary of your laboratory report",
+      "overview": "This report contains 15 readable test results: 15 within the range printed on the report, 0 outside it, 0 that could not be classified, and 0 awaiting manual verification.",
+      "counts": {
+        "WITHIN_RANGE": 15,
+        "HIGH": 0,
+        "LOW": 0,
+        "ABNORMAL": 0,
+        "UNKNOWN": 0,
+        "NEEDS_REVIEW": 0
+      },
+      "total_tests": 15,
+      "report_kind": "Report type: Complete Blood Count",
+      "categories": [
+        "Complete Blood Count"
+      ],
+      "key_points": [
+        "Every readable result is within the range printed on this report."
+      ],
+      "next_steps": [
+        "Show this summary together with the original laboratory report to a doctor.",
+        "Ask your doctor about any result the report places outside its own range.",
+        "Where a result needs verification, check that number on the original report first.",
+        "Keep the original laboratory report; this summary does not replace it."
+      ],
+      "disclaimers": [
+        "This is general information about laboratory tests, not a medical diagnosis, and it does not replace advice from a doctor.",
+        "Do not start, stop or change any medicine based on this summary. Only a qualified doctor can interpret these results for you.",
+        "If you have severe or worsening symptoms, seek medical care immediately."
+      ]
+    },
+    "tests": [
+      {
+        "index": 0,
+        "canonical_id": "hemoglobin",
+        "name": "Hemoglobin",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "Hemoglobin is the protein inside red blood cells that carries oxygen from the lungs to the rest of the body.",
+        "result_line": "Hemoglobin: 13.4 g/dL (range printed on the report: 12.0 - 15.0)",
+        "status_text": "This result is within the reference range printed on your report (12.0 - 15.0). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": "Good to know: It is one of the first tests in a complete blood count.",
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "13.4",
+          "value_numeric": 13.4,
+          "value_qualitative": null,
+          "unit_raw": "g/dL",
+          "reference_text": "12.0 - 15.0",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 1,
+        "canonical_id": "wbc_count",
+        "name": "White Blood Cell Count",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "White blood cells are part of the body's immune defence. This count is their number in a measured volume of blood.",
+        "result_line": "White Blood Cell Count: 7200 /uL (range printed on the report: 4000 - 11000)",
+        "status_text": "This result is within the reference range printed on your report (4000 - 11000). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "7200",
+          "value_numeric": 7200.0,
+          "value_qualitative": null,
+          "unit_raw": "/uL",
+          "reference_text": "4000 - 11000",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 2,
+        "canonical_id": "platelet_count",
+        "name": "Platelet Count",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "Platelets are small particles in the blood that help it to clot and stop bleeding.",
+        "result_line": "Platelet Count: 2.1 lakh/uL (range printed on the report: 1.5 - 4.1)",
+        "status_text": "This result is within the reference range printed on your report (1.5 - 4.1). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "2.1",
+          "value_numeric": 2.1,
+          "value_qualitative": null,
+          "unit_raw": "lakh/uL",
+          "reference_text": "1.5 - 4.1",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 3,
+        "canonical_id": "rbc_count",
+        "name": "Red Blood Cell Count",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "Red blood cells carry oxygen. This count is the number of red blood cells in a measured volume of blood.",
+        "result_line": "Red Blood Cell Count: 4.8 million/uL (range printed on the report: 4.0 - 5.2)",
+        "status_text": "This result is within the reference range printed on your report (4.0 - 5.2). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "4.8",
+          "value_numeric": 4.8,
+          "value_qualitative": null,
+          "unit_raw": "million/uL",
+          "reference_text": "4.0 - 5.2",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 4,
+        "canonical_id": "hematocrit",
+        "name": "Hematocrit (PCV)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "Hematocrit, also called packed cell volume, is the share of your blood volume that is made up of red blood cells.",
+        "result_line": "Hematocrit (PCV): 41 % (range printed on the report: 36 - 46)",
+        "status_text": "This result is within the reference range printed on your report (36 - 46). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "41",
+          "value_numeric": 41.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "36 - 46",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 5,
+        "canonical_id": "mcv",
+        "name": "MCV (Mean Corpuscular Volume)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "MCV is the average size of your red blood cells.",
+        "result_line": "MCV (Mean Corpuscular Volume): 86 fL (range printed on the report: 80 - 100)",
+        "status_text": "This result is within the reference range printed on your report (80 - 100). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "86",
+          "value_numeric": 86.0,
+          "value_qualitative": null,
+          "unit_raw": "fL",
+          "reference_text": "80 - 100",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 6,
+        "canonical_id": "mch",
+        "name": "MCH (Mean Corpuscular Hemoglobin)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "MCH is the average amount of hemoglobin contained in one red blood cell.",
+        "result_line": "MCH (Mean Corpuscular Hemoglobin): 28.5 pg (range printed on the report: 27 - 32)",
+        "status_text": "This result is within the reference range printed on your report (27 - 32). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "28.5",
+          "value_numeric": 28.5,
+          "value_qualitative": null,
+          "unit_raw": "pg",
+          "reference_text": "27 - 32",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 7,
+        "canonical_id": "mchc",
+        "name": "MCHC (Mean Corpuscular Hemoglobin Concentration)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "MCHC is the average concentration of hemoglobin inside your red blood cells.",
+        "result_line": "MCHC (Mean Corpuscular Hemoglobin Concentration): 32.1 g/dL (range printed on the report: 31.5 - 34.5)",
+        "status_text": "This result is within the reference range printed on your report (31.5 - 34.5). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "32.1",
+          "value_numeric": 32.1,
+          "value_qualitative": null,
+          "unit_raw": "g/dL",
+          "reference_text": "31.5 - 34.5",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 8,
+        "canonical_id": "rdw",
+        "name": "RDW (Red Cell Distribution Width)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "RDW shows how much the sizes of your red blood cells differ from each other.",
+        "result_line": "RDW (Red Cell Distribution Width): 13.2 % (range printed on the report: 11.5 - 14.5)",
+        "status_text": "This result is within the reference range printed on your report (11.5 - 14.5). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "13.2",
+          "value_numeric": 13.2,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "11.5 - 14.5",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 9,
+        "canonical_id": "neutrophil",
+        "name": "Neutrophils",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "Neutrophils are one type of white blood cell. This result shows what share of your white blood cells are neutrophils.",
+        "result_line": "Neutrophils: 62 % (range printed on the report: 40 - 75)",
+        "status_text": "This result is within the reference range printed on your report (40 - 75). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "62",
+          "value_numeric": 62.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "40 - 75",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 10,
+        "canonical_id": "lymphocyte",
+        "name": "Lymphocytes",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "Lymphocytes are one type of white blood cell. This result shows what share of your white blood cells are lymphocytes.",
+        "result_line": "Lymphocytes: 30 % (range printed on the report: 20 - 45)",
+        "status_text": "This result is within the reference range printed on your report (20 - 45). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "30",
+          "value_numeric": 30.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "20 - 45",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 11,
+        "canonical_id": "monocyte",
+        "name": "Monocytes",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "Monocytes are one type of white blood cell. This result shows what share of your white blood cells are monocytes.",
+        "result_line": "Monocytes: 05 % (range printed on the report: 2 - 10)",
+        "status_text": "This result is within the reference range printed on your report (2 - 10). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "05",
+          "value_numeric": 5.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "2 - 10",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 12,
+        "canonical_id": "eosinophil",
+        "name": "Eosinophils",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "Eosinophils are one type of white blood cell. This result shows what share of your white blood cells are eosinophils.",
+        "result_line": "Eosinophils: 02 % (range printed on the report: 1 - 6)",
+        "status_text": "This result is within the reference range printed on your report (1 - 6). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "02",
+          "value_numeric": 2.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "1 - 6",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 13,
+        "canonical_id": "basophil",
+        "name": "Basophils",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "Basophils are one type of white blood cell. This result shows what share of your white blood cells are basophils.",
+        "result_line": "Basophils: 01 % (range printed on the report: 0 - 2)",
+        "status_text": "This result is within the reference range printed on your report (0 - 2). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "01",
+          "value_numeric": 1.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "0 - 2",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 14,
+        "canonical_id": "esr",
+        "name": "ESR (Erythrocyte Sedimentation Rate)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "Within the report's range",
+        "known_test": true,
+        "measures": "ESR measures how quickly red blood cells settle to the bottom of a tube in one hour, a rate that can change when there is inflammation in the body.",
+        "result_line": "ESR (Erythrocyte Sedimentation Rate): 18 mm/hr (range printed on the report: 0 - 20)",
+        "status_text": "This result is within the reference range printed on your report (0 - 20). The laboratory did not mark it as outside its own range.",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "18",
+          "value_numeric": 18.0,
+          "value_qualitative": null,
+          "unit_raw": "mm/hr",
+          "reference_text": "0 - 20",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      }
+    ],
+    "warnings": []
+  },
+  "hi": {
+    "language": "hi",
+    "provider": "rule-based",
+    "document_id": null,
+    "summary": {
+      "language": "hi",
+      "title": "आपकी प्रयोगशाला रिपोर्ट का सरल सारांश",
+      "overview": "इस रिपोर्ट में 15 पढ़े गए परिणाम हैं: 15 रिपोर्ट में छपी सीमा के भीतर, 0 उस सीमा से बाहर, 0 ऐसे परिणाम जिन्हें वर्गीकृत नहीं किया जा सका, और 0 ऐसे परिणाम जिनके लिए मैन्युअल जाँच आवश्यक है।",
+      "counts": {
+        "WITHIN_RANGE": 15,
+        "HIGH": 0,
+        "LOW": 0,
+        "ABNORMAL": 0,
+        "UNKNOWN": 0,
+        "NEEDS_REVIEW": 0
+      },
+      "total_tests": 15,
+      "report_kind": "रिपोर्ट का प्रकार: संपूर्ण रक्त गणना",
+      "categories": [
+        "संपूर्ण रक्त गणना"
+      ],
+      "key_points": [
+        "हर पढ़ा गया परिणाम इस रिपोर्ट में छपी सीमा के भीतर है।"
+      ],
+      "next_steps": [
+        "यह सारांश मूल प्रयोगशाला रिपोर्ट के साथ डॉक्टर को दिखाएँ।",
+        "जो परिणाम रिपोर्ट की अपनी सीमा से बाहर हैं, उनके बारे में अपने डॉक्टर से पूछें।",
+        "जिन परिणामों की पुष्टि आवश्यक है, पहले मूल रिपोर्ट में वह संख्या देखें।",
+        "मूल प्रयोगशाला रिपोर्ट सुरक्षित रखें; यह सारांश उसका विकल्प नहीं है।"
+      ],
+      "disclaimers": [
+        "यह प्रयोगशाला जाँचों के बारे में सामान्य जानकारी है, कोई चिकित्सकीय निदान नहीं, और यह डॉक्टर की सलाह का विकल्प नहीं है।",
+        "इस सारांश के आधार पर कोई दवा शुरू, बंद या बदलें नहीं। इन परिणामों का अर्थ केवल एक योग्य डॉक्टर ही आपके लिए समझा सकते हैं।",
+        "यदि आपको गंभीर या बढ़ते लक्षण हैं, तो तुरंत चिकित्सकीय सहायता लें।"
+      ]
+    },
+    "tests": [
+      {
+        "index": 0,
+        "canonical_id": "hemoglobin",
+        "name": "हीमोग्लोबिन",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "हीमोग्लोबिन लाल रक्त कोशिकाओं में मौजूद प्रोटीन है जो फेफड़ों से शरीर के बाकी हिस्सों तक ऑक्सीजन पहुँचाता है।",
+        "result_line": "हीमोग्लोबिन: 13.4 g/dL (रिपोर्ट में छपी सीमा: 12.0 - 15.0)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (12.0 - 15.0) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": "जानने योग्य: यह संपूर्ण रक्त गणना की सबसे पहली जाँचों में से एक है।",
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "13.4",
+          "value_numeric": 13.4,
+          "value_qualitative": null,
+          "unit_raw": "g/dL",
+          "reference_text": "12.0 - 15.0",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 1,
+        "canonical_id": "wbc_count",
+        "name": "श्वेत रक्त कोशिका संख्या",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "श्वेत रक्त कोशिकाएँ शरीर की रोग-प्रतिरोधक क्षमता का हिस्सा हैं। यह जाँच रक्त के एक निश्चित आयतन में इनकी संख्या बताती है।",
+        "result_line": "श्वेत रक्त कोशिका संख्या: 7200 /uL (रिपोर्ट में छपी सीमा: 4000 - 11000)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (4000 - 11000) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "7200",
+          "value_numeric": 7200.0,
+          "value_qualitative": null,
+          "unit_raw": "/uL",
+          "reference_text": "4000 - 11000",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 2,
+        "canonical_id": "platelet_count",
+        "name": "प्लेटलेट संख्या",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "प्लेटलेट्स रक्त में मौजूद छोटे कण हैं जो खून को जमने और रक्तस्राव रोकने में मदद करते हैं।",
+        "result_line": "प्लेटलेट संख्या: 2.1 lakh/uL (रिपोर्ट में छपी सीमा: 1.5 - 4.1)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (1.5 - 4.1) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "2.1",
+          "value_numeric": 2.1,
+          "value_qualitative": null,
+          "unit_raw": "lakh/uL",
+          "reference_text": "1.5 - 4.1",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 3,
+        "canonical_id": "rbc_count",
+        "name": "लाल रक्त कोशिका संख्या",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "लाल रक्त कोशिकाएँ ऑक्सीजन ले जाती हैं। यह जाँच रक्त के एक निश्चित आयतन में इनकी संख्या बताती है।",
+        "result_line": "लाल रक्त कोशिका संख्या: 4.8 million/uL (रिपोर्ट में छपी सीमा: 4.0 - 5.2)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (4.0 - 5.2) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "4.8",
+          "value_numeric": 4.8,
+          "value_qualitative": null,
+          "unit_raw": "million/uL",
+          "reference_text": "4.0 - 5.2",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 4,
+        "canonical_id": "hematocrit",
+        "name": "हीमेटोक्रिट (PCV)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "हीमेटोक्रिट, जिसे पैक्ड सेल वॉल्यूम भी कहा जाता है, बताता है कि आपके रक्त के कुल आयतन का कितना हिस्सा लाल रक्त कोशिकाओं का है।",
+        "result_line": "हीमेटोक्रिट (PCV): 41 % (रिपोर्ट में छपी सीमा: 36 - 46)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (36 - 46) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "41",
+          "value_numeric": 41.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "36 - 46",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 5,
+        "canonical_id": "mcv",
+        "name": "MCV (औसत लाल कोशिका आयतन)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "MCV आपकी लाल रक्त कोशिकाओं का औसत आकार बताता है।",
+        "result_line": "MCV (औसत लाल कोशिका आयतन): 86 fL (रिपोर्ट में छपी सीमा: 80 - 100)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (80 - 100) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "86",
+          "value_numeric": 86.0,
+          "value_qualitative": null,
+          "unit_raw": "fL",
+          "reference_text": "80 - 100",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 6,
+        "canonical_id": "mch",
+        "name": "MCH (औसत कोशिका हीमोग्लोबिन)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "MCH बताता है कि एक लाल रक्त कोशिका में औसतन कितना हीमोग्लोबिन है।",
+        "result_line": "MCH (औसत कोशिका हीमोग्लोबिन): 28.5 pg (रिपोर्ट में छपी सीमा: 27 - 32)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (27 - 32) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "28.5",
+          "value_numeric": 28.5,
+          "value_qualitative": null,
+          "unit_raw": "pg",
+          "reference_text": "27 - 32",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 7,
+        "canonical_id": "mchc",
+        "name": "MCHC (औसत कोशिका हीमोग्लोबिन सांद्रता)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "MCHC लाल रक्त कोशिकाओं के भीतर हीमोग्लोबिन की औसत सांद्रता बताता है।",
+        "result_line": "MCHC (औसत कोशिका हीमोग्लोबिन सांद्रता): 32.1 g/dL (रिपोर्ट में छपी सीमा: 31.5 - 34.5)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (31.5 - 34.5) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "32.1",
+          "value_numeric": 32.1,
+          "value_qualitative": null,
+          "unit_raw": "g/dL",
+          "reference_text": "31.5 - 34.5",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 8,
+        "canonical_id": "rdw",
+        "name": "RDW (लाल कोशिका वितरण चौड़ाई)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "RDW बताता है कि आपकी लाल रक्त कोशिकाओं के आकार में आपस में कितना अंतर है।",
+        "result_line": "RDW (लाल कोशिका वितरण चौड़ाई): 13.2 % (रिपोर्ट में छपी सीमा: 11.5 - 14.5)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (11.5 - 14.5) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "13.2",
+          "value_numeric": 13.2,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "11.5 - 14.5",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 9,
+        "canonical_id": "neutrophil",
+        "name": "न्यूट्रोफिल",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "न्यूट्रोफिल एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में न्यूट्रोफिल का कितना हिस्सा है।",
+        "result_line": "न्यूट्रोफिल: 62 % (रिपोर्ट में छपी सीमा: 40 - 75)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (40 - 75) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "62",
+          "value_numeric": 62.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "40 - 75",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 10,
+        "canonical_id": "lymphocyte",
+        "name": "लिम्फोसाइट",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "लिम्फोसाइट एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में लिम्फोसाइट का कितना हिस्सा है।",
+        "result_line": "लिम्फोसाइट: 30 % (रिपोर्ट में छपी सीमा: 20 - 45)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (20 - 45) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "30",
+          "value_numeric": 30.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "20 - 45",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 11,
+        "canonical_id": "monocyte",
+        "name": "मोनोसाइट",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "मोनोसाइट एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में मोनोसाइट का कितना हिस्सा है।",
+        "result_line": "मोनोसाइट: 05 % (रिपोर्ट में छपी सीमा: 2 - 10)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (2 - 10) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "05",
+          "value_numeric": 5.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "2 - 10",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 12,
+        "canonical_id": "eosinophil",
+        "name": "इओसिनोफिल",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "इओसिनोफिल एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में इओसिनोफिल का कितना हिस्सा है।",
+        "result_line": "इओसिनोफिल: 02 % (रिपोर्ट में छपी सीमा: 1 - 6)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (1 - 6) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "02",
+          "value_numeric": 2.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "1 - 6",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 13,
+        "canonical_id": "basophil",
+        "name": "बेसोफिल",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "बेसोफिल एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में बेसोफिल का कितना हिस्सा है।",
+        "result_line": "बेसोफिल: 01 % (रिपोर्ट में छपी सीमा: 0 - 2)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (0 - 2) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "01",
+          "value_numeric": 1.0,
+          "value_qualitative": null,
+          "unit_raw": "%",
+          "reference_text": "0 - 2",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      },
+      {
+        "index": 14,
+        "canonical_id": "esr",
+        "name": "ESR (लाल कोशिका अवसादन दर)",
+        "category": "cbc",
+        "status": "WITHIN_RANGE",
+        "status_label": "रिपोर्ट की सीमा के भीतर",
+        "known_test": true,
+        "measures": "ESR मापता है कि एक घंटे में लाल रक्त कोशिकाएँ एक ट्यूब में कितनी तेज़ी से नीचे बैठती हैं; शरीर में सूजन होने पर यह दर बदल सकती है।",
+        "result_line": "ESR (लाल कोशिका अवसादन दर): 18 mm/hr (रिपोर्ट में छपी सीमा: 0 - 20)",
+        "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (0 - 20) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+        "interpretation_note": null,
+        "correction_note": null,
+        "caution": null,
+        "review_reasons": [],
+        "values_used": {
+          "value_raw": "18",
+          "value_numeric": 18.0,
+          "value_qualitative": null,
+          "unit_raw": "mm/hr",
+          "reference_text": "0 - 20",
+          "reference_kind": "interval",
+          "lab_flag_raw": null,
+          "status": "WITHIN_RANGE"
+        },
+        "references": [
+          "medlineplus-lab-tests"
+        ]
+      }
+    ],
+    "warnings": []
+  }
+}

@@ -41,6 +41,24 @@ export const REFERRAL_SERVICE: ServiceItem = {
 };
 
 /**
+ * The Medical Report Simplifier is available to patients, helpers, hospital
+ * staff (shared reports only) and admins (aggregates only). Pass the base path
+ * that matches the current user.
+ */
+export const medicalReportServiceItem = (basePath: string): ServiceItem => ({
+  key: 'report',
+  title: 'Medical Report Simplifier',
+  description:
+    'Upload a printed report and read a plain-language explanation in English or Hindi.',
+  status: 'available',
+  footer: (
+    <Link to={basePath} className={primaryButtonLink}>
+      Open Medical Reports
+    </Link>
+  ),
+});
+
+/**
  * The vaccination tracker is available for helpers, hospital staff and admins,
  * each under their own base path. Pass the one that matches the current user.
  */
@@ -64,8 +82,8 @@ export default function ServicesSection({ services }: { services: ServiceItem[] 
           Healthcare Services
         </h2>
         <p className="text-sm text-slate-500 mt-0.5">
-          Health assessment, referrals and the vaccination tracker are available now. The other
-          modules are planned.
+          Health assessment, referrals, medical reports and the vaccination tracker are available
+          now. The other modules are planned.
         </p>
       </div>
 

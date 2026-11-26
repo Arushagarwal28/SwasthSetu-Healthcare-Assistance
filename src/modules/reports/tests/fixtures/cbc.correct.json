@@ -1,0 +1,1876 @@
+{
+  "tests": [
+    {
+      "index": 0,
+      "canonical_id": "hemoglobin",
+      "canonical_name": "Hemoglobin",
+      "category": "cbc",
+      "name_raw": "Hemoglobin (Hb)",
+      "name_normalized": "hemoglobin",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "13.4",
+        "value_numeric": 13.4,
+        "unit_raw": "g/dL",
+        "reference_text": "12.0 - 15.0"
+      },
+      "value_raw": "11.0",
+      "value_numeric": 11.0,
+      "value_qualitative": null,
+      "unit_raw": "g/dL",
+      "unit_normalized": "g/dL",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 12.0,
+        "high": 15.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "12.0 - 15.0",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "LOW",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 11.0, below the printed reference range 12.0-15.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 2,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 182.4,
+          "top": 744.0,
+          "bottom": 755.0
+        }
+      },
+      "corrections": [
+        {
+          "field": "value",
+          "original": "13.4",
+          "corrected": "11.0",
+          "corrected_by": "fixture",
+          "corrected_at": "2026-01-01T00:00:00Z",
+          "note": "fixture correction"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "canonical_id": "wbc_count",
+      "canonical_name": "WBC Count",
+      "category": "cbc",
+      "name_raw": "Total Leucocyte Count (TLC)",
+      "name_normalized": "total leucocyte count",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "7200",
+        "value_numeric": 7200.0,
+        "unit_raw": "/uL",
+        "reference_text": "4000 - 11000"
+      },
+      "value_raw": "7200",
+      "value_numeric": 7200.0,
+      "value_qualitative": null,
+      "unit_raw": "/uL",
+      "unit_normalized": "/µL",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 4000.0,
+        "high": 11000.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "4000 - 11000",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 7200; printed reference range is 4000.0-11000.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 3,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 182.4,
+          "top": 726.0,
+          "bottom": 737.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 2,
+      "canonical_id": "platelet_count",
+      "canonical_name": "Platelet Count",
+      "category": "cbc",
+      "name_raw": "Platelet Count",
+      "name_normalized": "platelet count",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "2.1",
+        "value_numeric": 2.1,
+        "unit_raw": "lakh/uL",
+        "reference_text": "1.5 - 4.1"
+      },
+      "value_raw": "2.1",
+      "value_numeric": 2.1,
+      "value_qualitative": null,
+      "unit_raw": "lakh/uL",
+      "unit_normalized": "lakh/µL",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 1.5,
+        "high": 4.1,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "1.5 - 4.1",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 2.1; printed reference range is 1.5-4.1.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 4,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 176.8,
+          "top": 708.0,
+          "bottom": 719.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 3,
+      "canonical_id": "rbc_count",
+      "canonical_name": "RBC Count",
+      "category": "cbc",
+      "name_raw": "RBC Count",
+      "name_normalized": "rbc count",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "4.8",
+        "value_numeric": 4.8,
+        "unit_raw": "million/uL",
+        "reference_text": "4.0 - 5.2"
+      },
+      "value_raw": "4.8",
+      "value_numeric": 4.8,
+      "value_qualitative": null,
+      "unit_raw": "million/uL",
+      "unit_normalized": "million/µL",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 4.0,
+        "high": 5.2,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "4.0 - 5.2",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 4.8; printed reference range is 4.0-5.2.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 5,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 176.8,
+          "top": 690.0,
+          "bottom": 701.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 4,
+      "canonical_id": "hematocrit",
+      "canonical_name": "Hematocrit",
+      "category": "cbc",
+      "name_raw": "PCV",
+      "name_normalized": "pcv",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "41",
+        "value_numeric": 41.0,
+        "unit_raw": "%",
+        "reference_text": "36 - 46"
+      },
+      "value_raw": "41",
+      "value_numeric": 41.0,
+      "value_qualitative": null,
+      "unit_raw": "%",
+      "unit_normalized": "%",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 36.0,
+        "high": 46.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "36 - 46",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 41; printed reference range is 36.0-46.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 6,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 171.2,
+          "top": 672.0,
+          "bottom": 683.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 5,
+      "canonical_id": "mcv",
+      "canonical_name": "MCV",
+      "category": "cbc",
+      "name_raw": "MCV",
+      "name_normalized": "mcv",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "86",
+        "value_numeric": 86.0,
+        "unit_raw": "fL",
+        "reference_text": "80 - 100"
+      },
+      "value_raw": "86",
+      "value_numeric": 86.0,
+      "value_qualitative": null,
+      "unit_raw": "fL",
+      "unit_normalized": "fL",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 80.0,
+        "high": 100.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "80 - 100",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 86; printed reference range is 80.0-100.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 7,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 171.2,
+          "top": 654.0,
+          "bottom": 665.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 6,
+      "canonical_id": "mch",
+      "canonical_name": "MCH",
+      "category": "cbc",
+      "name_raw": "MCH",
+      "name_normalized": "mch",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "28.5",
+        "value_numeric": 28.5,
+        "unit_raw": "pg",
+        "reference_text": "27 - 32"
+      },
+      "value_raw": "28.5",
+      "value_numeric": 28.5,
+      "value_qualitative": null,
+      "unit_raw": "pg",
+      "unit_normalized": "pg",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 27.0,
+        "high": 32.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "27 - 32",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 28.5; printed reference range is 27.0-32.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 8,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 182.4,
+          "top": 636.0,
+          "bottom": 647.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 7,
+      "canonical_id": "mchc",
+      "canonical_name": "MCHC",
+      "category": "cbc",
+      "name_raw": "MCHC",
+      "name_normalized": "mchc",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "32.1",
+        "value_numeric": 32.1,
+        "unit_raw": "g/dL",
+        "reference_text": "31.5 - 34.5"
+      },
+      "value_raw": "32.1",
+      "value_numeric": 32.1,
+      "value_qualitative": null,
+      "unit_raw": "g/dL",
+      "unit_normalized": "g/dL",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 31.5,
+        "high": 34.5,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "31.5 - 34.5",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 32.1; printed reference range is 31.5-34.5.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 9,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 182.4,
+          "top": 618.0,
+          "bottom": 629.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 8,
+      "canonical_id": "rdw",
+      "canonical_name": "RDW",
+      "category": "cbc",
+      "name_raw": "RDW",
+      "name_normalized": "rdw",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "13.2",
+        "value_numeric": 13.2,
+        "unit_raw": "%",
+        "reference_text": "11.5 - 14.5"
+      },
+      "value_raw": "13.2",
+      "value_numeric": 13.2,
+      "value_qualitative": null,
+      "unit_raw": "%",
+      "unit_normalized": "%",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 11.5,
+        "high": 14.5,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "11.5 - 14.5",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 13.2; printed reference range is 11.5-14.5.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 10,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 182.4,
+          "top": 600.0,
+          "bottom": 611.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 9,
+      "canonical_id": "neutrophil",
+      "canonical_name": "Neutrophils",
+      "category": "cbc",
+      "name_raw": "Neutrophils",
+      "name_normalized": "neutrophils",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "62",
+        "value_numeric": 62.0,
+        "unit_raw": "%",
+        "reference_text": "40 - 75"
+      },
+      "value_raw": "62",
+      "value_numeric": 62.0,
+      "value_qualitative": null,
+      "unit_raw": "%",
+      "unit_normalized": "%",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 40.0,
+        "high": 75.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "40 - 75",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 62; printed reference range is 40.0-75.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 11,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 171.2,
+          "top": 582.0,
+          "bottom": 593.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 10,
+      "canonical_id": "lymphocyte",
+      "canonical_name": "Lymphocytes",
+      "category": "cbc",
+      "name_raw": "Lymphocytes",
+      "name_normalized": "lymphocytes",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "30",
+        "value_numeric": 30.0,
+        "unit_raw": "%",
+        "reference_text": "20 - 45"
+      },
+      "value_raw": "30",
+      "value_numeric": 30.0,
+      "value_qualitative": null,
+      "unit_raw": "%",
+      "unit_normalized": "%",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 20.0,
+        "high": 45.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "20 - 45",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 30; printed reference range is 20.0-45.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 12,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 171.2,
+          "top": 564.0,
+          "bottom": 575.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 11,
+      "canonical_id": "monocyte",
+      "canonical_name": "Monocytes",
+      "category": "cbc",
+      "name_raw": "Monocytes",
+      "name_normalized": "monocytes",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "05",
+        "value_numeric": 5.0,
+        "unit_raw": "%",
+        "reference_text": "2 - 10"
+      },
+      "value_raw": "05",
+      "value_numeric": 5.0,
+      "value_qualitative": null,
+      "unit_raw": "%",
+      "unit_normalized": "%",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 2.0,
+        "high": 10.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "2 - 10",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 05; printed reference range is 2.0-10.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 13,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 171.2,
+          "top": 546.0,
+          "bottom": 557.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 12,
+      "canonical_id": "eosinophil",
+      "canonical_name": "Eosinophils",
+      "category": "cbc",
+      "name_raw": "Eosinophils",
+      "name_normalized": "eosinophils",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "02",
+        "value_numeric": 2.0,
+        "unit_raw": "%",
+        "reference_text": "1 - 6"
+      },
+      "value_raw": "02",
+      "value_numeric": 2.0,
+      "value_qualitative": null,
+      "unit_raw": "%",
+      "unit_normalized": "%",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 1.0,
+        "high": 6.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "1 - 6",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 02; printed reference range is 1.0-6.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 14,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 171.2,
+          "top": 528.0,
+          "bottom": 539.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 13,
+      "canonical_id": "basophil",
+      "canonical_name": "Basophils",
+      "category": "cbc",
+      "name_raw": "Basophils",
+      "name_normalized": "basophils",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "01",
+        "value_numeric": 1.0,
+        "unit_raw": "%",
+        "reference_text": "0 - 2"
+      },
+      "value_raw": "01",
+      "value_numeric": 1.0,
+      "value_qualitative": null,
+      "unit_raw": "%",
+      "unit_normalized": "%",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 0.0,
+        "high": 2.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "0 - 2",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 01; printed reference range is 0.0-2.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 15,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 171.2,
+          "top": 510.0,
+          "bottom": 521.0
+        }
+      },
+      "corrections": []
+    },
+    {
+      "index": 14,
+      "canonical_id": "esr",
+      "canonical_name": "ESR",
+      "category": "cbc",
+      "name_raw": "ESR",
+      "name_normalized": "esr",
+      "name_match": {
+        "method": "alias",
+        "score": 1.0
+      },
+      "extracted": {
+        "value_raw": "18",
+        "value_numeric": 18.0,
+        "unit_raw": "mm/hr",
+        "reference_text": "0 - 20"
+      },
+      "value_raw": "18",
+      "value_numeric": 18.0,
+      "value_qualitative": null,
+      "unit_raw": "mm/hr",
+      "unit_normalized": "mm/hr",
+      "unit_known": true,
+      "reference": {
+        "kind": "interval",
+        "low": 0.0,
+        "high": 20.0,
+        "low_inclusive": true,
+        "high_inclusive": true,
+        "text_raw": "0 - 20",
+        "qualitative_expected": null
+      },
+      "lab_flag_raw": null,
+      "status": "WITHIN_RANGE",
+      "status_basis": "reference_range",
+      "status_reason": "Reported 18; printed reference range is 0.0-20.0.",
+      "confidence": 98.0,
+      "needs_review": false,
+      "review_reasons": [],
+      "verification": {
+        "checked": false,
+        "primary_reading": null,
+        "secondary_reading": null,
+        "agreement": "not_checked",
+        "languages": []
+      },
+      "source": {
+        "page_index": 0,
+        "line_index": 16,
+        "row_index": 0,
+        "page_source": "pdf_text",
+        "bbox": {
+          "x0": 160.0,
+          "x1": 171.2,
+          "top": 492.0,
+          "bottom": 503.0
+        }
+      },
+      "corrections": []
+    }
+  ],
+  "applied": [
+    {
+      "field": "value",
+      "original": "13.4",
+      "corrected": "11.0",
+      "corrected_by": "fixture",
+      "corrected_at": "2026-01-01T00:00:00Z",
+      "note": "fixture correction",
+      "index": 0
+    }
+  ],
+  "explanations": {
+    "en": {
+      "language": "en",
+      "provider": "rule-based",
+      "document_id": null,
+      "summary": {
+        "language": "en",
+        "title": "Simplified summary of your laboratory report",
+        "overview": "This report contains 15 readable test results: 14 within the range printed on the report, 1 outside it, 0 that could not be classified, and 0 awaiting manual verification.",
+        "counts": {
+          "WITHIN_RANGE": 14,
+          "HIGH": 0,
+          "LOW": 1,
+          "ABNORMAL": 0,
+          "UNKNOWN": 0,
+          "NEEDS_REVIEW": 0
+        },
+        "total_tests": 15,
+        "report_kind": "Report type: Complete Blood Count",
+        "categories": [
+          "Complete Blood Count"
+        ],
+        "key_points": [
+          "1 result(s) are outside the range printed on this report. Being outside a laboratory range is not by itself a diagnosis; only a doctor can interpret it."
+        ],
+        "next_steps": [
+          "Show this summary together with the original laboratory report to a doctor.",
+          "Ask your doctor about any result the report places outside its own range.",
+          "Where a result needs verification, check that number on the original report first.",
+          "Keep the original laboratory report; this summary does not replace it."
+        ],
+        "disclaimers": [
+          "This is general information about laboratory tests, not a medical diagnosis, and it does not replace advice from a doctor.",
+          "Do not start, stop or change any medicine based on this summary. Only a qualified doctor can interpret these results for you.",
+          "If you have severe or worsening symptoms, seek medical care immediately."
+        ]
+      },
+      "tests": [
+        {
+          "index": 0,
+          "canonical_id": "hemoglobin",
+          "name": "Hemoglobin",
+          "category": "cbc",
+          "status": "LOW",
+          "status_label": "Below the report's range",
+          "known_test": true,
+          "measures": "Hemoglobin is the protein inside red blood cells that carries oxygen from the lungs to the rest of the body.",
+          "result_line": "Hemoglobin: 11.0 g/dL (range printed on the report: 12.0 - 15.0)",
+          "status_text": "This result is below the reference range printed on your report (12.0 - 15.0). A result below the range is usually marked LOW on the report.",
+          "interpretation_note": "Good to know: It is one of the first tests in a complete blood count.",
+          "correction_note": "A human corrected the value of this result while checking the original report (recorded as '13.4' -> '11.0'). The explanation uses the corrected value; the value originally read by the software is still kept in the report data.",
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "11.0",
+            "value_numeric": 11.0,
+            "value_qualitative": null,
+            "unit_raw": "g/dL",
+            "reference_text": "12.0 - 15.0",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "LOW"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 1,
+          "canonical_id": "wbc_count",
+          "name": "White Blood Cell Count",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "White blood cells are part of the body's immune defence. This count is their number in a measured volume of blood.",
+          "result_line": "White Blood Cell Count: 7200 /uL (range printed on the report: 4000 - 11000)",
+          "status_text": "This result is within the reference range printed on your report (4000 - 11000). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "7200",
+            "value_numeric": 7200.0,
+            "value_qualitative": null,
+            "unit_raw": "/uL",
+            "reference_text": "4000 - 11000",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 2,
+          "canonical_id": "platelet_count",
+          "name": "Platelet Count",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "Platelets are small particles in the blood that help it to clot and stop bleeding.",
+          "result_line": "Platelet Count: 2.1 lakh/uL (range printed on the report: 1.5 - 4.1)",
+          "status_text": "This result is within the reference range printed on your report (1.5 - 4.1). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "2.1",
+            "value_numeric": 2.1,
+            "value_qualitative": null,
+            "unit_raw": "lakh/uL",
+            "reference_text": "1.5 - 4.1",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 3,
+          "canonical_id": "rbc_count",
+          "name": "Red Blood Cell Count",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "Red blood cells carry oxygen. This count is the number of red blood cells in a measured volume of blood.",
+          "result_line": "Red Blood Cell Count: 4.8 million/uL (range printed on the report: 4.0 - 5.2)",
+          "status_text": "This result is within the reference range printed on your report (4.0 - 5.2). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "4.8",
+            "value_numeric": 4.8,
+            "value_qualitative": null,
+            "unit_raw": "million/uL",
+            "reference_text": "4.0 - 5.2",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 4,
+          "canonical_id": "hematocrit",
+          "name": "Hematocrit (PCV)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "Hematocrit, also called packed cell volume, is the share of your blood volume that is made up of red blood cells.",
+          "result_line": "Hematocrit (PCV): 41 % (range printed on the report: 36 - 46)",
+          "status_text": "This result is within the reference range printed on your report (36 - 46). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "41",
+            "value_numeric": 41.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "36 - 46",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 5,
+          "canonical_id": "mcv",
+          "name": "MCV (Mean Corpuscular Volume)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "MCV is the average size of your red blood cells.",
+          "result_line": "MCV (Mean Corpuscular Volume): 86 fL (range printed on the report: 80 - 100)",
+          "status_text": "This result is within the reference range printed on your report (80 - 100). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "86",
+            "value_numeric": 86.0,
+            "value_qualitative": null,
+            "unit_raw": "fL",
+            "reference_text": "80 - 100",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 6,
+          "canonical_id": "mch",
+          "name": "MCH (Mean Corpuscular Hemoglobin)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "MCH is the average amount of hemoglobin contained in one red blood cell.",
+          "result_line": "MCH (Mean Corpuscular Hemoglobin): 28.5 pg (range printed on the report: 27 - 32)",
+          "status_text": "This result is within the reference range printed on your report (27 - 32). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "28.5",
+            "value_numeric": 28.5,
+            "value_qualitative": null,
+            "unit_raw": "pg",
+            "reference_text": "27 - 32",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 7,
+          "canonical_id": "mchc",
+          "name": "MCHC (Mean Corpuscular Hemoglobin Concentration)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "MCHC is the average concentration of hemoglobin inside your red blood cells.",
+          "result_line": "MCHC (Mean Corpuscular Hemoglobin Concentration): 32.1 g/dL (range printed on the report: 31.5 - 34.5)",
+          "status_text": "This result is within the reference range printed on your report (31.5 - 34.5). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "32.1",
+            "value_numeric": 32.1,
+            "value_qualitative": null,
+            "unit_raw": "g/dL",
+            "reference_text": "31.5 - 34.5",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 8,
+          "canonical_id": "rdw",
+          "name": "RDW (Red Cell Distribution Width)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "RDW shows how much the sizes of your red blood cells differ from each other.",
+          "result_line": "RDW (Red Cell Distribution Width): 13.2 % (range printed on the report: 11.5 - 14.5)",
+          "status_text": "This result is within the reference range printed on your report (11.5 - 14.5). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "13.2",
+            "value_numeric": 13.2,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "11.5 - 14.5",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 9,
+          "canonical_id": "neutrophil",
+          "name": "Neutrophils",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "Neutrophils are one type of white blood cell. This result shows what share of your white blood cells are neutrophils.",
+          "result_line": "Neutrophils: 62 % (range printed on the report: 40 - 75)",
+          "status_text": "This result is within the reference range printed on your report (40 - 75). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "62",
+            "value_numeric": 62.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "40 - 75",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 10,
+          "canonical_id": "lymphocyte",
+          "name": "Lymphocytes",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "Lymphocytes are one type of white blood cell. This result shows what share of your white blood cells are lymphocytes.",
+          "result_line": "Lymphocytes: 30 % (range printed on the report: 20 - 45)",
+          "status_text": "This result is within the reference range printed on your report (20 - 45). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "30",
+            "value_numeric": 30.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "20 - 45",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 11,
+          "canonical_id": "monocyte",
+          "name": "Monocytes",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "Monocytes are one type of white blood cell. This result shows what share of your white blood cells are monocytes.",
+          "result_line": "Monocytes: 05 % (range printed on the report: 2 - 10)",
+          "status_text": "This result is within the reference range printed on your report (2 - 10). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "05",
+            "value_numeric": 5.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "2 - 10",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 12,
+          "canonical_id": "eosinophil",
+          "name": "Eosinophils",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "Eosinophils are one type of white blood cell. This result shows what share of your white blood cells are eosinophils.",
+          "result_line": "Eosinophils: 02 % (range printed on the report: 1 - 6)",
+          "status_text": "This result is within the reference range printed on your report (1 - 6). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "02",
+            "value_numeric": 2.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "1 - 6",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 13,
+          "canonical_id": "basophil",
+          "name": "Basophils",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "Basophils are one type of white blood cell. This result shows what share of your white blood cells are basophils.",
+          "result_line": "Basophils: 01 % (range printed on the report: 0 - 2)",
+          "status_text": "This result is within the reference range printed on your report (0 - 2). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "01",
+            "value_numeric": 1.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "0 - 2",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 14,
+          "canonical_id": "esr",
+          "name": "ESR (Erythrocyte Sedimentation Rate)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "Within the report's range",
+          "known_test": true,
+          "measures": "ESR measures how quickly red blood cells settle to the bottom of a tube in one hour, a rate that can change when there is inflammation in the body.",
+          "result_line": "ESR (Erythrocyte Sedimentation Rate): 18 mm/hr (range printed on the report: 0 - 20)",
+          "status_text": "This result is within the reference range printed on your report (0 - 20). The laboratory did not mark it as outside its own range.",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "18",
+            "value_numeric": 18.0,
+            "value_qualitative": null,
+            "unit_raw": "mm/hr",
+            "reference_text": "0 - 20",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    "hi": {
+      "language": "hi",
+      "provider": "rule-based",
+      "document_id": null,
+      "summary": {
+        "language": "hi",
+        "title": "आपकी प्रयोगशाला रिपोर्ट का सरल सारांश",
+        "overview": "इस रिपोर्ट में 15 पढ़े गए परिणाम हैं: 14 रिपोर्ट में छपी सीमा के भीतर, 1 उस सीमा से बाहर, 0 ऐसे परिणाम जिन्हें वर्गीकृत नहीं किया जा सका, और 0 ऐसे परिणाम जिनके लिए मैन्युअल जाँच आवश्यक है।",
+        "counts": {
+          "WITHIN_RANGE": 14,
+          "HIGH": 0,
+          "LOW": 1,
+          "ABNORMAL": 0,
+          "UNKNOWN": 0,
+          "NEEDS_REVIEW": 0
+        },
+        "total_tests": 15,
+        "report_kind": "रिपोर्ट का प्रकार: संपूर्ण रक्त गणना",
+        "categories": [
+          "संपूर्ण रक्त गणना"
+        ],
+        "key_points": [
+          "1 परिणाम इस रिपोर्ट में छपी सीमा से बाहर हैं। किसी प्रयोगशाला सीमा से बाहर होना अपने आप में कोई निदान नहीं है; इसका अर्थ केवल डॉक्टर ही बता सकते हैं।"
+        ],
+        "next_steps": [
+          "यह सारांश मूल प्रयोगशाला रिपोर्ट के साथ डॉक्टर को दिखाएँ।",
+          "जो परिणाम रिपोर्ट की अपनी सीमा से बाहर हैं, उनके बारे में अपने डॉक्टर से पूछें।",
+          "जिन परिणामों की पुष्टि आवश्यक है, पहले मूल रिपोर्ट में वह संख्या देखें।",
+          "मूल प्रयोगशाला रिपोर्ट सुरक्षित रखें; यह सारांश उसका विकल्प नहीं है।"
+        ],
+        "disclaimers": [
+          "यह प्रयोगशाला जाँचों के बारे में सामान्य जानकारी है, कोई चिकित्सकीय निदान नहीं, और यह डॉक्टर की सलाह का विकल्प नहीं है।",
+          "इस सारांश के आधार पर कोई दवा शुरू, बंद या बदलें नहीं। इन परिणामों का अर्थ केवल एक योग्य डॉक्टर ही आपके लिए समझा सकते हैं।",
+          "यदि आपको गंभीर या बढ़ते लक्षण हैं, तो तुरंत चिकित्सकीय सहायता लें।"
+        ]
+      },
+      "tests": [
+        {
+          "index": 0,
+          "canonical_id": "hemoglobin",
+          "name": "हीमोग्लोबिन",
+          "category": "cbc",
+          "status": "LOW",
+          "status_label": "रिपोर्ट की सीमा से कम",
+          "known_test": true,
+          "measures": "हीमोग्लोबिन लाल रक्त कोशिकाओं में मौजूद प्रोटीन है जो फेफड़ों से शरीर के बाकी हिस्सों तक ऑक्सीजन पहुँचाता है।",
+          "result_line": "हीमोग्लोबिन: 11.0 g/dL (रिपोर्ट में छपी सीमा: 12.0 - 15.0)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (12.0 - 15.0) से कम है। सीमा से कम परिणाम को रिपोर्ट पर सामान्यतः LOW लिखा जाता है।",
+          "interpretation_note": "जानने योग्य: यह संपूर्ण रक्त गणना की सबसे पहली जाँचों में से एक है।",
+          "correction_note": "मूल रिपोर्ट जाँचते समय किसी व्यक्ति ने इस परिणाम का मान सुधारा है ('13.4' -> '11.0')। व्याख्या में सुधारा गया मान इस्तेमाल हुआ है; सॉफ़्टवेयर द्वारा पढ़ा गया मूल मान रिपोर्ट के डेटा में सुरक्षित रखा गया है।",
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "11.0",
+            "value_numeric": 11.0,
+            "value_qualitative": null,
+            "unit_raw": "g/dL",
+            "reference_text": "12.0 - 15.0",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "LOW"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 1,
+          "canonical_id": "wbc_count",
+          "name": "श्वेत रक्त कोशिका संख्या",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "श्वेत रक्त कोशिकाएँ शरीर की रोग-प्रतिरोधक क्षमता का हिस्सा हैं। यह जाँच रक्त के एक निश्चित आयतन में इनकी संख्या बताती है।",
+          "result_line": "श्वेत रक्त कोशिका संख्या: 7200 /uL (रिपोर्ट में छपी सीमा: 4000 - 11000)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (4000 - 11000) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "7200",
+            "value_numeric": 7200.0,
+            "value_qualitative": null,
+            "unit_raw": "/uL",
+            "reference_text": "4000 - 11000",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 2,
+          "canonical_id": "platelet_count",
+          "name": "प्लेटलेट संख्या",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "प्लेटलेट्स रक्त में मौजूद छोटे कण हैं जो खून को जमने और रक्तस्राव रोकने में मदद करते हैं।",
+          "result_line": "प्लेटलेट संख्या: 2.1 lakh/uL (रिपोर्ट में छपी सीमा: 1.5 - 4.1)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (1.5 - 4.1) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "2.1",
+            "value_numeric": 2.1,
+            "value_qualitative": null,
+            "unit_raw": "lakh/uL",
+            "reference_text": "1.5 - 4.1",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 3,
+          "canonical_id": "rbc_count",
+          "name": "लाल रक्त कोशिका संख्या",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "लाल रक्त कोशिकाएँ ऑक्सीजन ले जाती हैं। यह जाँच रक्त के एक निश्चित आयतन में इनकी संख्या बताती है।",
+          "result_line": "लाल रक्त कोशिका संख्या: 4.8 million/uL (रिपोर्ट में छपी सीमा: 4.0 - 5.2)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (4.0 - 5.2) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "4.8",
+            "value_numeric": 4.8,
+            "value_qualitative": null,
+            "unit_raw": "million/uL",
+            "reference_text": "4.0 - 5.2",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 4,
+          "canonical_id": "hematocrit",
+          "name": "हीमेटोक्रिट (PCV)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "हीमेटोक्रिट, जिसे पैक्ड सेल वॉल्यूम भी कहा जाता है, बताता है कि आपके रक्त के कुल आयतन का कितना हिस्सा लाल रक्त कोशिकाओं का है।",
+          "result_line": "हीमेटोक्रिट (PCV): 41 % (रिपोर्ट में छपी सीमा: 36 - 46)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (36 - 46) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "41",
+            "value_numeric": 41.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "36 - 46",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 5,
+          "canonical_id": "mcv",
+          "name": "MCV (औसत लाल कोशिका आयतन)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "MCV आपकी लाल रक्त कोशिकाओं का औसत आकार बताता है।",
+          "result_line": "MCV (औसत लाल कोशिका आयतन): 86 fL (रिपोर्ट में छपी सीमा: 80 - 100)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (80 - 100) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "86",
+            "value_numeric": 86.0,
+            "value_qualitative": null,
+            "unit_raw": "fL",
+            "reference_text": "80 - 100",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 6,
+          "canonical_id": "mch",
+          "name": "MCH (औसत कोशिका हीमोग्लोबिन)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "MCH बताता है कि एक लाल रक्त कोशिका में औसतन कितना हीमोग्लोबिन है।",
+          "result_line": "MCH (औसत कोशिका हीमोग्लोबिन): 28.5 pg (रिपोर्ट में छपी सीमा: 27 - 32)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (27 - 32) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "28.5",
+            "value_numeric": 28.5,
+            "value_qualitative": null,
+            "unit_raw": "pg",
+            "reference_text": "27 - 32",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 7,
+          "canonical_id": "mchc",
+          "name": "MCHC (औसत कोशिका हीमोग्लोबिन सांद्रता)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "MCHC लाल रक्त कोशिकाओं के भीतर हीमोग्लोबिन की औसत सांद्रता बताता है।",
+          "result_line": "MCHC (औसत कोशिका हीमोग्लोबिन सांद्रता): 32.1 g/dL (रिपोर्ट में छपी सीमा: 31.5 - 34.5)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (31.5 - 34.5) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "32.1",
+            "value_numeric": 32.1,
+            "value_qualitative": null,
+            "unit_raw": "g/dL",
+            "reference_text": "31.5 - 34.5",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 8,
+          "canonical_id": "rdw",
+          "name": "RDW (लाल कोशिका वितरण चौड़ाई)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "RDW बताता है कि आपकी लाल रक्त कोशिकाओं के आकार में आपस में कितना अंतर है।",
+          "result_line": "RDW (लाल कोशिका वितरण चौड़ाई): 13.2 % (रिपोर्ट में छपी सीमा: 11.5 - 14.5)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (11.5 - 14.5) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "13.2",
+            "value_numeric": 13.2,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "11.5 - 14.5",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 9,
+          "canonical_id": "neutrophil",
+          "name": "न्यूट्रोफिल",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "न्यूट्रोफिल एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में न्यूट्रोफिल का कितना हिस्सा है।",
+          "result_line": "न्यूट्रोफिल: 62 % (रिपोर्ट में छपी सीमा: 40 - 75)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (40 - 75) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "62",
+            "value_numeric": 62.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "40 - 75",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 10,
+          "canonical_id": "lymphocyte",
+          "name": "लिम्फोसाइट",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "लिम्फोसाइट एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में लिम्फोसाइट का कितना हिस्सा है।",
+          "result_line": "लिम्फोसाइट: 30 % (रिपोर्ट में छपी सीमा: 20 - 45)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (20 - 45) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "30",
+            "value_numeric": 30.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "20 - 45",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 11,
+          "canonical_id": "monocyte",
+          "name": "मोनोसाइट",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "मोनोसाइट एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में मोनोसाइट का कितना हिस्सा है।",
+          "result_line": "मोनोसाइट: 05 % (रिपोर्ट में छपी सीमा: 2 - 10)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (2 - 10) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "05",
+            "value_numeric": 5.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "2 - 10",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 12,
+          "canonical_id": "eosinophil",
+          "name": "इओसिनोफिल",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "इओसिनोफिल एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में इओसिनोफिल का कितना हिस्सा है।",
+          "result_line": "इओसिनोफिल: 02 % (रिपोर्ट में छपी सीमा: 1 - 6)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (1 - 6) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "02",
+            "value_numeric": 2.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "1 - 6",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 13,
+          "canonical_id": "basophil",
+          "name": "बेसोफिल",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "बेसोफिल एक प्रकार की श्वेत रक्त कोशिका है। यह परिणाम बताता है कि आपकी श्वेत रक्त कोशिकाओं में बेसोफिल का कितना हिस्सा है।",
+          "result_line": "बेसोफिल: 01 % (रिपोर्ट में छपी सीमा: 0 - 2)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (0 - 2) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "01",
+            "value_numeric": 1.0,
+            "value_qualitative": null,
+            "unit_raw": "%",
+            "reference_text": "0 - 2",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        },
+        {
+          "index": 14,
+          "canonical_id": "esr",
+          "name": "ESR (लाल कोशिका अवसादन दर)",
+          "category": "cbc",
+          "status": "WITHIN_RANGE",
+          "status_label": "रिपोर्ट की सीमा के भीतर",
+          "known_test": true,
+          "measures": "ESR मापता है कि एक घंटे में लाल रक्त कोशिकाएँ एक ट्यूब में कितनी तेज़ी से नीचे बैठती हैं; शरीर में सूजन होने पर यह दर बदल सकती है।",
+          "result_line": "ESR (लाल कोशिका अवसादन दर): 18 mm/hr (रिपोर्ट में छपी सीमा: 0 - 20)",
+          "status_text": "यह परिणाम आपकी रिपोर्ट में छपी संदर्भ सीमा (0 - 20) के भीतर है। प्रयोगशाला ने इसे अपनी सीमा से बाहर नहीं माना है।",
+          "interpretation_note": null,
+          "correction_note": null,
+          "caution": null,
+          "review_reasons": [],
+          "values_used": {
+            "value_raw": "18",
+            "value_numeric": 18.0,
+            "value_qualitative": null,
+            "unit_raw": "mm/hr",
+            "reference_text": "0 - 20",
+            "reference_kind": "interval",
+            "lab_flag_raw": null,
+            "status": "WITHIN_RANGE"
+          },
+          "references": [
+            "medlineplus-lab-tests"
+          ]
+        }
+      ],
+      "warnings": []
+    }
+  }
+}

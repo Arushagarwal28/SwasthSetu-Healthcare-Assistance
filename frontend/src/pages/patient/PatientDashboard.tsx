@@ -11,6 +11,7 @@ import Card from '../../components/ui/Card';
 import Spinner from '../../components/ui/Spinner';
 import ErrorBlock from '../../components/ui/ErrorBlock';
 import RecommendedFacilitiesPage from '../shared/RecommendedFacilitiesPage';
+import ReportModule from '../../modules/reports/ReportModule';
 
 interface Patient {
   id: string;
@@ -214,6 +215,12 @@ export default function PatientDashboard() {
       <Route
         path="assessment/:assessmentId/recommendations"
         element={<RecommendedFacilitiesPage backTo="/patient" />}
+      />
+
+      {/* Medical Report Simplifier */}
+      <Route
+        path="reports/*"
+        element={<ReportModule role="PATIENT" basePath="/patient/reports" />}
       />
     </Routes>
   );

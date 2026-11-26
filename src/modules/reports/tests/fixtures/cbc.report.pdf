@@ -1,0 +1,100 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.0 842.0] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 2311 >>
+stream
+BT
+/F1 10 Tf
+1 0 0 1 56.0 790.0 Tm (COMPLETE BLOOD COUNT) Tj
+1 0 0 1 56.0 774.0 Tm (Test) Tj
+1 0 0 1 210.0 774.0 Tm (Result) Tj
+1 0 0 1 330.0 774.0 Tm (Unit) Tj
+1 0 0 1 410.0 774.0 Tm (Reference Range) Tj
+1 0 0 1 520.0 774.0 Tm (Flag) Tj
+1 0 0 1 56.0 758.0 Tm (Hemoglobin \(Hb\)) Tj
+1 0 0 1 210.0 758.0 Tm (13.4) Tj
+1 0 0 1 330.0 758.0 Tm (g/dL) Tj
+1 0 0 1 410.0 758.0 Tm (12.0 - 15.0) Tj
+1 0 0 1 56.0 742.0 Tm (Total Leucocyte Count \(TLC\)) Tj
+1 0 0 1 210.0 742.0 Tm (7200) Tj
+1 0 0 1 330.0 742.0 Tm (/uL) Tj
+1 0 0 1 410.0 742.0 Tm (4000 - 11000) Tj
+1 0 0 1 56.0 726.0 Tm (Platelet Count) Tj
+1 0 0 1 210.0 726.0 Tm (2.1) Tj
+1 0 0 1 330.0 726.0 Tm (lakh/uL) Tj
+1 0 0 1 410.0 726.0 Tm (1.5 - 4.1) Tj
+1 0 0 1 56.0 710.0 Tm (RBC Count) Tj
+1 0 0 1 210.0 710.0 Tm (4.8) Tj
+1 0 0 1 330.0 710.0 Tm (million/uL) Tj
+1 0 0 1 410.0 710.0 Tm (4.0 - 5.2) Tj
+1 0 0 1 56.0 694.0 Tm (PCV) Tj
+1 0 0 1 210.0 694.0 Tm (41) Tj
+1 0 0 1 330.0 694.0 Tm (%) Tj
+1 0 0 1 410.0 694.0 Tm (36 - 46) Tj
+1 0 0 1 56.0 678.0 Tm (MCV) Tj
+1 0 0 1 210.0 678.0 Tm (86) Tj
+1 0 0 1 330.0 678.0 Tm (fL) Tj
+1 0 0 1 410.0 678.0 Tm (80 - 100) Tj
+1 0 0 1 56.0 662.0 Tm (MCH) Tj
+1 0 0 1 210.0 662.0 Tm (28.5) Tj
+1 0 0 1 330.0 662.0 Tm (pg) Tj
+1 0 0 1 410.0 662.0 Tm (27 - 32) Tj
+1 0 0 1 56.0 646.0 Tm (MCHC) Tj
+1 0 0 1 210.0 646.0 Tm (32.1) Tj
+1 0 0 1 330.0 646.0 Tm (g/dL) Tj
+1 0 0 1 410.0 646.0 Tm (31.5 - 34.5) Tj
+1 0 0 1 56.0 630.0 Tm (RDW) Tj
+1 0 0 1 210.0 630.0 Tm (13.2) Tj
+1 0 0 1 330.0 630.0 Tm (%) Tj
+1 0 0 1 410.0 630.0 Tm (11.5 - 14.5) Tj
+1 0 0 1 56.0 614.0 Tm (Neutrophils) Tj
+1 0 0 1 210.0 614.0 Tm (62) Tj
+1 0 0 1 330.0 614.0 Tm (%) Tj
+1 0 0 1 410.0 614.0 Tm (40 - 75) Tj
+1 0 0 1 56.0 598.0 Tm (Lymphocytes) Tj
+1 0 0 1 210.0 598.0 Tm (30) Tj
+1 0 0 1 330.0 598.0 Tm (%) Tj
+1 0 0 1 410.0 598.0 Tm (20 - 45) Tj
+1 0 0 1 56.0 582.0 Tm (Monocytes) Tj
+1 0 0 1 210.0 582.0 Tm (05) Tj
+1 0 0 1 330.0 582.0 Tm (%) Tj
+1 0 0 1 410.0 582.0 Tm (2 - 10) Tj
+1 0 0 1 56.0 566.0 Tm (Eosinophils) Tj
+1 0 0 1 210.0 566.0 Tm (02) Tj
+1 0 0 1 330.0 566.0 Tm (%) Tj
+1 0 0 1 410.0 566.0 Tm (1 - 6) Tj
+1 0 0 1 56.0 550.0 Tm (Basophils) Tj
+1 0 0 1 210.0 550.0 Tm (01) Tj
+1 0 0 1 330.0 550.0 Tm (%) Tj
+1 0 0 1 410.0 550.0 Tm (0 - 2) Tj
+1 0 0 1 56.0 534.0 Tm (ESR) Tj
+1 0 0 1 210.0 534.0 Tm (18) Tj
+1 0 0 1 330.0 534.0 Tm (mm/hr) Tj
+1 0 0 1 410.0 534.0 Tm (0 - 20) Tj
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000212 00000 n 
+0000000342 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+2705
+%%EOF

@@ -17,6 +17,7 @@ import symptomRoutes from './modules/symptom/symptom.routes';
 import referralRoutes from './modules/referrals/referral.routes';
 import childRoutes from './modules/vaccination/child.routes';
 import vaccinationRoutes from './modules/vaccination/vaccination.routes';
+import reportRoutes from './modules/reports/report.routes';
 const app = express();
 
 app.use(helmet());
@@ -35,6 +36,7 @@ app.use('/api/v1/symptoms', symptomRoutes);
 app.use('/api/v1/referrals', referralRoutes);
 app.use('/api/v1/children', childRoutes);
 app.use('/api/v1/vaccination', vaccinationRoutes);
+app.use('/api/v1/reports', reportRoutes);
 /**
  * @swagger
  * /health:

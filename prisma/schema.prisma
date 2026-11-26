@@ -30,6 +30,14 @@ model User {
   dosesRecorded            ChildDose[]               @relation("DoseRecordedBy")
   doseEvents               ChildDoseEvent[]          @relation("DoseEventChangedBy")
   vaccinationNotifications VaccinationNotification[]
+
+  // Medical Report Simplifier (Phase 4)
+  reportsUploaded      MedicalReport[]    @relation("ReportUploadedBy")
+  reportCorrections    ReportCorrection[] @relation("ReportCorrectionMadeBy")
+  reportSharesReceived ReportShare[]      @relation("ReportSharedWith")
+  reportSharesGranted  ReportShare[]      @relation("ReportSharedBy")
+  reportAuditEntries   ReportAuditLog[]   @relation("ReportAuditActor")
+
   @@map("users")
 }
 
@@ -69,6 +77,7 @@ model Patient {
   referrals Referral[]
   helperLinks PatientHelperLink[]
   assessments Assessment[]
+  medicalReports MedicalReport[]
 
   @@map("patients")
 }
@@ -606,4 +615,220 @@ model VaccinationNotification {
   @@unique([userId, reminderId])
   @@index([userId, readAt])
   @@map("vaccination_notifications")
+}
+
+// --- Medical Report Simplifier (Phase 4) ---
+
+enum ReportProcessingStatus {
+  UPLOADED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum ReportTestStatus {
+  WITHIN_RANGE
+  HIGH
+  LOW
+  ABNORMAL
+  UNKNOWN
+  NEEDS_REVIEW
+}
+
+enum ExplanationKind {
+  REPORT_SUMMARY
+  TEST
+}
+
+enum CorrectionField {
+  VALUE
+  UNIT
+  REFERENCE_RANGE
+  NAME
+}
+
+enum ReportAuditAction {
+  UPLOAD
+  PARSE_SUCCESS
+  PARSE_FAILURE
+  VIEW
+  EXPORT
+  CORRECT
+  SHARE
+  REVOKE_SHARE
+  COMPARE
+  DELETE
+}
+
+model MedicalReport {
+  id                 String                 @id @default(uuid())
+  patientId          String
+  patient            Patient                @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  uploadedById       String
+  uploadedBy         User                   @relation("ReportUploadedBy", fields: [uploadedById], references: [id], onDelete: Restrict)
+  uploadedByRole     Role
+  title              String?
+  originalFilename   String?
+  fileMimeType       String
+  fileSizeBytes      Int
+  language           String                 @default("en")
+  status             ReportProcessingStatus @default(UPLOADED)
+  errorCode          String?
+  pageCount          Int                    @default(0)
+  testCount          Int                    @default(0)
+  needsReviewCount   Int                    @default(0)
+  reportTypePrimary  String?
+  reportTypeDetected String[]               @default([])
+  reportTypeMixed    Boolean                @default(false)
+  reportDate         DateTime?
+  parsedPayload      Json?
+  processingMs       Int?
+  processedAt        DateTime?
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
+
+  tests        MedicalReportTest[]
+  explanations ReportExplanation[]
+  corrections  ReportCorrection[]
+  auditLogs    ReportAuditLog[]
+  shares       ReportShare[]
+
+  @@index([patientId, createdAt])
+  @@index([patientId, reportDate])
+  @@index([uploadedById, createdAt])
+  @@index([status])
+  @@index([reportTypePrimary])
+  @@map("medical_reports")
+}
+
+model MedicalReportTest {
+  id                     String           @id @default(uuid())
+  reportId               String
+  report                 MedicalReport    @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  index                  Int
+  canonicalId            String?
+  canonicalName          String
+  category               String
+  nameRaw                String
+  nameMatchMethod        String?
+  nameMatchScore         Float?
+  extractedValueRaw      String?
+  extractedValueNumeric  Float?
+  extractedUnitRaw       String?
+  extractedReferenceText String?
+  valueRaw               String?
+  valueNumeric           Float?
+  valueQualitative       String?
+  unitRaw                String?
+  unitNormalized         String?
+  unitKnown              Boolean          @default(false)
+  referenceKind          String           @default("unknown")
+  referenceLow           Float?
+  referenceHigh          Float?
+  referenceLowInclusive  Boolean          @default(true)
+  referenceHighInclusive Boolean          @default(true)
+  referenceText          String?
+  labFlagRaw             String?
+  status                 ReportTestStatus @default(UNKNOWN)
+  statusBasis            String
+  statusReason           String
+  confidence             Float            @default(0)
+  needsReview            Boolean          @default(false)
+  reviewReasons          String[]         @default([])
+  verificationChecked    Boolean          @default(false)
+  verificationPrimary    String?
+  verificationSecondary  String?
+  verificationAgreement  String?
+  pageIndex              Int              @default(0)
+  lineIndex              Int              @default(0)
+  rowIndex               Int              @default(0)
+  pageSource             String           @default("pdf_text")
+  correctedAt            DateTime?
+  correctedById          String?
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+
+  corrections  ReportCorrection[]
+  explanations ReportExplanation[]
+
+  @@unique([reportId, index])
+  @@index([canonicalId])
+  @@index([status])
+  @@map("medical_report_tests")
+}
+
+model ReportExplanation {
+  id        String             @id @default(uuid())
+  reportId  String
+  report    MedicalReport      @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  testId    String?
+  test      MedicalReportTest? @relation(fields: [testId], references: [id], onDelete: Cascade)
+  kind      ExplanationKind
+  language  String
+  scopeKey  String
+  provider  String
+  text      String
+  payload   Json
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@unique([reportId, scopeKey, language])
+  @@index([reportId, language])
+  @@map("report_explanations")
+}
+
+model ReportCorrection {
+  id              String           @id @default(uuid())
+  reportId        String
+  report          MedicalReport    @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  testId          String
+  test            MedicalReportTest @relation(fields: [testId], references: [id], onDelete: Cascade)
+  field           CorrectionField
+  originalValue   Json
+  correctedValue  Json
+  correctedById   String
+  correctedBy     User             @relation("ReportCorrectionMadeBy", fields: [correctedById], references: [id], onDelete: Restrict)
+  note            String?
+  resultingStatus ReportTestStatus?
+  createdAt       DateTime         @default(now())
+
+  @@index([reportId, createdAt])
+  @@index([testId, createdAt])
+  @@map("report_corrections")
+}
+
+model ReportShare {
+  id          String        @id @default(uuid())
+  reportId    String
+  report      MedicalReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User          @relation("ReportSharedWith", fields: [userId], references: [id], onDelete: Cascade)
+  grantedById String
+  grantedBy   User          @relation("ReportSharedBy", fields: [grantedById], references: [id], onDelete: Cascade)
+  createdAt   DateTime      @default(now())
+  revokedAt   DateTime?
+  expiresAt   DateTime?
+
+  @@unique([reportId, userId])
+  @@index([userId, revokedAt])
+  @@map("report_shares")
+}
+
+model ReportAuditLog {
+  id        String             @id @default(uuid())
+  reportId  String?
+  report    MedicalReport?     @relation(fields: [reportId], references: [id], onDelete: SetNull)
+  reportRef String?
+  actorId   String?
+  actor     User?              @relation("ReportAuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  actorRole Role?
+  action    ReportAuditAction
+  detail    Json?
+  requestId String?
+  createdAt DateTime           @default(now())
+
+  @@index([reportId, createdAt])
+  @@index([actorId, createdAt])
+  @@index([action, createdAt])
+  @@map("report_audit_logs")
 }

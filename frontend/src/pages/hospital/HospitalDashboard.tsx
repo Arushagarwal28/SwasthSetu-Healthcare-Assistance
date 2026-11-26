@@ -19,6 +19,7 @@ import IncomingReferralCard from '../../components/referral/IncomingReferralCard
 import ReferralActionModal from '../../components/referral/ReferralActionModal';
 import type { ActionMode } from '../../components/referral/ReferralActionModal';
 import VaccinationModule from '../vaccination/VaccinationModule';
+import ReportModule from '../../modules/reports/ReportModule';
 
 const TABS: { label: string; status: ReferralStatus }[] = [
   { label: 'Pending', status: 'PENDING' },
@@ -110,6 +111,9 @@ function HospitalReferralsHome() {
             )}
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <Link to="/hospital/reports" className={secondaryButtonLink}>
+              Medical Reports
+            </Link>
             <Link to="/hospital/vaccination" className={secondaryButtonLink}>
               Vaccination Tracker
             </Link>
@@ -214,6 +218,10 @@ export default function HospitalDashboard() {
             dashboardPath="/hospital"
           />
         }
+      />
+      <Route
+        path="reports/*"
+        element={<ReportModule role="HOSPITAL_STAFF" basePath="/hospital/reports" />}
       />
     </Routes>
   );

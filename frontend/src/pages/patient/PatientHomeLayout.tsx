@@ -5,6 +5,7 @@ import WelcomeBanner from '../../components/dashboard/WelcomeBanner';
 import ServicesSection, {
   PLANNED_SERVICES,
   REFERRAL_SERVICE,
+  medicalReportServiceItem,
 } from '../../components/dashboard/ServicesSection';
 import MyReferralsSection from '../../components/referral/MyReferralsSection';
 import type { ServiceItem } from '../../components/dashboard/ServicesSection';
@@ -56,7 +57,8 @@ export default function PatientHomeLayout({
       footer: startAction,
     },
     REFERRAL_SERVICE,
-    ...PLANNED_SERVICES,
+    medicalReportServiceItem('/patient/reports'),
+    ...PLANNED_SERVICES.filter((service) => service.key !== 'report'),
   ];
 
   return (
