@@ -1,6 +1,6 @@
 import { prisma } from '../../config/prisma';
 import { AppError } from '../../middlewares/errorHandler';
-import { childAccessFilter } from './child.access';
+import { childAccessFilter, describeChildAccess } from './child.access';
 import type { Actor } from './child.access';
 import { todayInIst } from './vaccination.dates';
 import { formatRecordNumber, toYmd } from './child.utils';
@@ -18,13 +18,16 @@ export const getChildDashboard = async (actor: Actor, childId: string) => {
   const child = await prisma.child.findFirst({
     where: { AND: [{ id: childId }, await childAccessFilter(actor)] },
     include: {
-      assignedFacility: { select: { id: true, name: true, type: true } },
+      registeredBy: {
+        select: { id: true, email: true, role: true, helperProfile: { select: { fullName: true } } },
+      },
       doses: { include: doseInclude },
     },
   });
   // 404 rather than 403, so the existence of other people's children is not revealed
   if (!child) throw new AppError('Child not found', 404);
 
+  const access = await describeChildAccess(actor, { id: child.id });
   const today = todayInIst();
   const doses = child.doses.map((d) => toDoseView(d, today));
 
@@ -48,6 +51,7 @@ export const getChildDashboard = async (actor: Actor, childId: string) => {
     take: 10,
     include: {
       dose: { select: { vaccineName: true, doseLabel: true } },
+      facility: { select: { id: true, name: true } },
       changedBy: {
         select: { id: true, email: true, role: true, helperProfile: { select: { fullName: true } } },
       },
@@ -68,9 +72,11 @@ export const getChildDashboard = async (actor: Actor, childId: string) => {
       jeEndemicArea: child.jeEndemicArea,
       preferredLanguage: child.preferredLanguage,
       smsConsent: child.smsConsent,
-      assignedFacility: child.assignedFacility,
+      registeredBy: toPerson(child.registeredBy),
     },
     asOf: today,
+    accessType: access.accessType,
+    accessExpiresAt: access.accessExpiresAt,
     summary: {
       total,
       administered: completed.length,
@@ -95,6 +101,7 @@ export const getChildDashboard = async (actor: Actor, childId: string) => {
       toStatus: e.toStatus,
       fromDueDate: e.fromDueDate ? toYmd(e.fromDueDate) : null,
       toDueDate: e.toDueDate ? toYmd(e.toDueDate) : null,
+      facility: e.facility,
       note: e.note,
       changedBy: toPerson(e.changedBy),
     })),
@@ -119,6 +126,7 @@ export const getChildHistory = async (actor: Actor, childId: string, page: numbe
       take: limit,
       include: {
         dose: { select: { id: true, vaccineName: true, doseLabel: true } },
+        facility: { select: { id: true, name: true } },
         changedBy: {
           select: { id: true, email: true, role: true, helperProfile: { select: { fullName: true } } },
         },
@@ -140,6 +148,7 @@ export const getChildHistory = async (actor: Actor, childId: string, page: numbe
       toStatus: e.toStatus,
       fromDueDate: e.fromDueDate ? toYmd(e.fromDueDate) : null,
       toDueDate: e.toDueDate ? toYmd(e.toDueDate) : null,
+      facility: e.facility,
       note: e.note,
       changedBy: toPerson(e.changedBy),
     })),

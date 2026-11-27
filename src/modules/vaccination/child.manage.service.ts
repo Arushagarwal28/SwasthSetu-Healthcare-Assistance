@@ -1,7 +1,7 @@
 import type { Prisma } from '@prisma/client';
 import { prisma } from '../../config/prisma';
 import { AppError } from '../../middlewares/errorHandler';
-import { childAccessFilter } from './child.access';
+import { childWriteAccessFilter } from './child.access';
 import type { Actor } from './child.access';
 import { getChildProfile } from './child.service';
 import { cleanText } from './child.utils';
@@ -30,8 +30,13 @@ const has = (body: object, key: string): boolean => Object.prototype.hasOwnPrope
  * schedule, so a wrong one means registering the child again.
  */
 export const updateChildDetails = async (actor: Actor, childId: string, body: UpdateChildBody) => {
+  // D1: staff may edit personal/guardian details only for a child they
+  // registered themselves AND while they still hold a valid grant. Another
+  // staff member's grant never allows personal-data edits; helpers keep their
+  // own-registration scope. See childWriteAccessFilter.
+
   const existing = await prisma.child.findFirst({
-    where: { AND: [{ id: childId }, await childAccessFilter(actor)] },
+    where: { AND: [{ id: childId }, await childWriteAccessFilter(actor)] },
     select: { id: true, smsConsent: true },
   });
   if (!existing) throw new AppError('Child not found', 404);

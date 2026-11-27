@@ -42,7 +42,16 @@ export const emptyStats = (): CycleStats => ({
 // 1. Make sure every open dose has its reminders (and stale ones are cancelled)
 // ---------------------------------------------------------------------------
 
+// The archived child-facility assignments are historical only. They are kept for
+// a bounded period for audit/reconciliation and then purged; they store no
+// personal data beyond the two identifiers.
+export const ASSIGNMENT_ARCHIVE_RETENTION_DAYS = 180;
+
 export const reconcileReminders = async (now: Date, stats: CycleStats): Promise<void> => {
+  await prisma.childFacilityAssignmentArchive.deleteMany({
+    where: { archivedAt: { lt: new Date(now.getTime() - ASSIGNMENT_ARCHIVE_RETENTION_DAYS * 86_400_000) } },
+  });
+
   const { from, to } = reconcileWindow(todayInIst(now));
 
   const doses = await prisma.childDose.findMany({
@@ -192,7 +201,7 @@ const processGroup = async (
       child: {
         select: {
           id: true, fullName: true, primaryMobile: true, smsConsent: true,
-          preferredLanguage: true, registeredById: true, assignedFacilityId: true,
+          preferredLanguage: true, registeredById: true,
         },
       },
     },
@@ -238,13 +247,12 @@ const processGroup = async (
 
   // In-app notification: once, on the first attempt
   if (attempt === 1) {
-    const staff = child.assignedFacilityId
-      ? await prisma.hospitalStaffFacilityLink.findMany({
-          where: { facilityId: child.assignedFacilityId, user: { isActive: true } },
-          select: { userId: true },
-        })
-      : [];
-    const recipients = [...new Set([child.registeredById, ...staff.map((s) => s.userId)])];
+    // D3: notify the healthcare worker who registered the child (and the
+    // guardian by SMS below). There is no facility-wide fan-out: being linked to
+    // a facility must not reveal a child's reminders. Notifications are also
+    // subject to child-access checks when opened, and the unique key below keeps
+    // them from being duplicated.
+    const recipients = [child.registeredById];
     const text = buildNotification({ kind, childName: child.fullName, vaccineNames, dueDate: dueYmd });
 
     await prisma.vaccinationNotification.createMany({

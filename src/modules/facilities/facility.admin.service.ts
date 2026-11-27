@@ -1,5 +1,6 @@
 import { prisma } from '../../config/prisma';
 import { AppError } from '../../middlewares/errorHandler';
+import { getRegistrationCodeSummaries } from './facility.code.service';
 
 /** Everything the admin screen needs in one call, including inactive facilities. */
 export const listFacilitiesForAdmin = async () => {
@@ -19,6 +20,9 @@ export const listFacilitiesForAdmin = async () => {
     }),
   ]);
 
+  // Only status/expiry metadata: the code value itself is never returned here.
+  const codeSummaries = await getRegistrationCodeSummaries(facilities.map((f) => f.id));
+
   return {
     facilities: facilities.map((f) => ({
       id: f.id,
@@ -31,6 +35,7 @@ export const listFacilitiesForAdmin = async () => {
       isActive: f.isActive,
       specialties: f.specialties.map((s) => s.specialty),
       staff: f.hospitalStaffLinks.map((l) => ({ userId: l.user.id, email: l.user.email })),
+      registrationCode: codeSummaries.get(f.id) ?? null,
     })),
     specialtyOptions: specialtyRows.map((r) => r.requiredSpecialty),
   };

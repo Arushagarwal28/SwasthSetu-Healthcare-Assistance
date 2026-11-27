@@ -15,20 +15,20 @@ enum Role {
 }
 
 model User {
-  id                 String                      @id @default(uuid())
-  email              String                      @unique
-  passwordHash       String
-  role               Role
-  isActive           Boolean                     @default(true)
-  createdAt          DateTime                    @default(now())
-  updatedAt          DateTime                    @updatedAt
-  refreshTokens      RefreshToken[]
-  patient            Patient?
-  helperProfile      HelperProfile?
-  hospitalStaffLinks HospitalStaffFacilityLink[]
-  childrenRegistered       Child[]                   @relation("ChildRegisteredBy")
-  dosesRecorded            ChildDose[]               @relation("DoseRecordedBy")
-  doseEvents               ChildDoseEvent[]          @relation("DoseEventChangedBy")
+  id                       String                      @id @default(uuid())
+  email                    String                      @unique
+  passwordHash             String
+  role                     Role
+  isActive                 Boolean                     @default(true)
+  createdAt                DateTime                    @default(now())
+  updatedAt                DateTime                    @updatedAt
+  refreshTokens            RefreshToken[]
+  patient                  Patient?
+  helperProfile            HelperProfile?
+  hospitalStaffLinks       HospitalStaffFacilityLink[]
+  childrenRegistered       Child[]                     @relation("ChildRegisteredBy")
+  dosesRecorded            ChildDose[]                 @relation("DoseRecordedBy")
+  doseEvents               ChildDoseEvent[]            @relation("DoseEventChangedBy")
   vaccinationNotifications VaccinationNotification[]
 
   // Medical Report Simplifier (Phase 4)
@@ -37,6 +37,15 @@ model User {
   reportSharesReceived ReportShare[]      @relation("ReportSharedWith")
   reportSharesGranted  ReportShare[]      @relation("ReportSharedBy")
   reportAuditEntries   ReportAuditLog[]   @relation("ReportAuditActor")
+
+  // Facility registration codes (Phase 7)
+  facilityCodesCreated FacilityRegistrationCode[] @relation("FacilityCodeCreatedBy")
+  facilityCodesRevoked FacilityRegistrationCode[] @relation("FacilityCodeRevokedBy")
+  facilityCodeAudits   FacilityCodeAudit[]        @relation("FacilityCodeAuditActor")
+
+  // Verified cross-facility vaccination access (Phase 7)
+  childAccessGrants ChildAccessGrant[] @relation("ChildAccessGrantedTo")
+  childAccessAudits ChildAccessAudit[] @relation("ChildAccessAuditActor")
 
   @@map("users")
 }
@@ -61,9 +70,9 @@ enum FacilityType {
 }
 
 model Patient {
-  id                String         @id @default(uuid())
-  userId            String?        @unique
-  user              User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String              @id @default(uuid())
+  userId            String?             @unique
+  user              User?               @relation(fields: [userId], references: [id], onDelete: Cascade)
   fullName          String
   dateOfBirth       DateTime
   gender            String
@@ -71,13 +80,13 @@ model Patient {
   email             String?
   address           String?
   createdByHelperId String?
-  createdByHelper   HelperProfile? @relation("HelperCreatedPatients", fields: [createdByHelperId], references: [id])
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
-  referrals Referral[]
-  helperLinks PatientHelperLink[]
-  assessments Assessment[]
-  medicalReports MedicalReport[]
+  createdByHelper   HelperProfile?      @relation("HelperCreatedPatients", fields: [createdByHelperId], references: [id])
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  referrals         Referral[]
+  helperLinks       PatientHelperLink[]
+  assessments       Assessment[]
+  medicalReports    MedicalReport[]
 
   @@map("patients")
 }
@@ -91,9 +100,9 @@ model HelperProfile {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  facilityLinks HelperFacilityLink[]
-  patientLinks  PatientHelperLink[]
-  createdPatients Patient[] @relation("HelperCreatedPatients")
+  facilityLinks   HelperFacilityLink[]
+  patientLinks    PatientHelperLink[]
+  createdPatients Patient[]            @relation("HelperCreatedPatients")
 
   @@map("helper_profiles")
 }
@@ -120,8 +129,13 @@ model Facility {
   pinCode           String?
   district          String?
   vaccineServices   FacilityVaccine[]
-  childrenAssigned  Child[]           @relation("ChildAssignedFacility")
   dosesAdministered ChildDose[]       @relation("DoseAdministeredAt")
+  doseEvents        ChildDoseEvent[]   @relation("DoseEventFacility")
+
+  registrationCodes  FacilityRegistrationCode[]
+  facilityCodeAudits FacilityCodeAudit[]
+  accessGrants       ChildAccessGrant[]         @relation("ChildAccessGrantFacility")
+  accessAudits       ChildAccessAudit[]         @relation("ChildAccessAuditFacility")
 
   @@index([pinCode])
   @@map("facilities")
@@ -175,15 +189,15 @@ enum AssessmentStatus {
 }
 
 model Assessment {
-  id          String           @id @default(uuid())
-  patientId   String
-  patient     Patient          @relation(fields: [patientId], references: [id], onDelete: Cascade)
-  createdById String // userId of whoever created it — Patient themself OR their Helper
-  status      AssessmentStatus @default(CREATED)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
-  completedAt DateTime?
-  referrals Referral[]
+  id                   String           @id @default(uuid())
+  patientId            String
+  patient              Patient          @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  createdById          String // userId of whoever created it — Patient themself OR their Helper
+  status               AssessmentStatus @default(CREATED)
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  completedAt          DateTime?
+  referrals            Referral[]
   predictedDisease     String?
   predictionConfidence Float?
   predictionDetails    Json?
@@ -270,23 +284,23 @@ enum ReferralStatus {
 }
 
 model Referral {
-  id                     String         @id @default(uuid())
-  assessmentId           String
-  assessment             Assessment     @relation(fields: [assessmentId], references: [id])
-  patientId               String
-  patient                 Patient        @relation(fields: [patientId], references: [id], onDelete: Cascade)
-  sourceFacilityId        String?
-  sourceFacility           Facility?      @relation("ReferralSource", fields: [sourceFacilityId], references: [id])
-  destinationFacilityId   String
-  destinationFacility     Facility       @relation("ReferralDestination", fields: [destinationFacilityId], references: [id])
-  createdById              String         // userId of whoever created it (Patient or Helper)
-  status                   ReferralStatus @default(PENDING)
-  notes                    String?
-  createdAt                DateTime       @default(now())
-  updatedAt                DateTime       @updatedAt
-  scheduledAt  DateTime?
-  hospitalNote String?
-  history ReferralHistory[]
+  id                    String            @id @default(uuid())
+  assessmentId          String
+  assessment            Assessment        @relation(fields: [assessmentId], references: [id])
+  patientId             String
+  patient               Patient           @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  sourceFacilityId      String?
+  sourceFacility        Facility?         @relation("ReferralSource", fields: [sourceFacilityId], references: [id])
+  destinationFacilityId String
+  destinationFacility   Facility          @relation("ReferralDestination", fields: [destinationFacilityId], references: [id])
+  createdById           String // userId of whoever created it (Patient or Helper)
+  status                ReferralStatus    @default(PENDING)
+  notes                 String?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  scheduledAt           DateTime?
+  hospitalNote          String?
+  history               ReferralHistory[]
 
   @@map("referrals")
 }
@@ -297,7 +311,7 @@ model ReferralHistory {
   referral    Referral        @relation(fields: [referralId], references: [id], onDelete: Cascade)
   fromStatus  ReferralStatus?
   toStatus    ReferralStatus
-  changedById String          // userId who made this change
+  changedById String // userId who made this change
   note        String?
   createdAt   DateTime        @default(now())
 
@@ -455,9 +469,8 @@ model Child {
   smsConsentAt        DateTime?
   consentRecordedById String?
 
-  assignedFacilityId String?
-  assignedFacility   Facility? @relation("ChildAssignedFacility", fields: [assignedFacilityId], references: [id], onDelete: SetNull)
-
+  // No permanent facility: the child is a centralized registry record. The
+  // facility belongs to each vaccination event, never to the child.
   registeredById String
   registeredBy   User   @relation("ChildRegisteredBy", fields: [registeredById], references: [id])
 
@@ -465,10 +478,12 @@ model Child {
   updatedAt DateTime @updatedAt
 
   doses         ChildDose[]
-  reminders     VaccinationReminder[]
-  notifications VaccinationNotification[]
+  reminders             VaccinationReminder[]
+  notifications         VaccinationNotification[]
+  accessGrants          ChildAccessGrant[]
+  accessAudits          ChildAccessAudit[]
+  facilityAssignments   ChildFacilityAssignmentArchive[] @relation("ChildFacilityArchive")
 
-  @@index([assignedFacilityId])
   @@index([registeredById])
   @@index([primaryMobile])
   @@index([pinCode])
@@ -479,9 +494,9 @@ model Child {
 // One row per dose per child. Vaccine and dose names are copied in so later
 // schedule edits never rewrite a child's medical record.
 model ChildDose {
-  id       String @id @default(uuid())
-  childId  String
-  child    Child  @relation(fields: [childId], references: [id], onDelete: Cascade)
+  id      String @id @default(uuid())
+  childId String
+  child   Child  @relation(fields: [childId], references: [id], onDelete: Cascade)
 
   scheduleEntryId String?
   scheduleEntry   VaccineScheduleEntry? @relation(fields: [scheduleEntryId], references: [id], onDelete: SetNull)
@@ -530,12 +545,17 @@ model ChildDoseEvent {
   toStatus    DoseRecordStatus
   fromDueDate DateTime?         @db.Date
   toDueDate   DateTime?         @db.Date
+  // Where this specific encounter or recording action happened. Null when the
+  // facility is unknown: it is never back-filled from another event's facility.
+  facilityId String?
+  facility   Facility? @relation("DoseEventFacility", fields: [facilityId], references: [id], onDelete: SetNull)
   changedById String
   changedBy   User              @relation("DoseEventChangedBy", fields: [changedById], references: [id])
   note        String?
   createdAt   DateTime          @default(now())
 
   @@index([doseId])
+  @@index([facilityId])
   @@map("child_dose_events")
 }
 
@@ -552,7 +572,7 @@ model VaccinationReminder {
   child   Child     @relation(fields: [childId], references: [id], onDelete: Cascade)
 
   kind            ReminderKind
-  dueDateSnapshot DateTime       @db.Date // the due date this reminder was scheduled against
+  dueDateSnapshot DateTime     @db.Date // the due date this reminder was scheduled against
   scheduledFor    DateTime // exact instant (09:00 IST on the target day)
 
   status        ReminderStatus @default(PENDING)
@@ -778,19 +798,19 @@ model ReportExplanation {
 }
 
 model ReportCorrection {
-  id              String           @id @default(uuid())
+  id              String            @id @default(uuid())
   reportId        String
-  report          MedicalReport    @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  report          MedicalReport     @relation(fields: [reportId], references: [id], onDelete: Cascade)
   testId          String
   test            MedicalReportTest @relation(fields: [testId], references: [id], onDelete: Cascade)
   field           CorrectionField
   originalValue   Json
   correctedValue  Json
   correctedById   String
-  correctedBy     User             @relation("ReportCorrectionMadeBy", fields: [correctedById], references: [id], onDelete: Restrict)
+  correctedBy     User              @relation("ReportCorrectionMadeBy", fields: [correctedById], references: [id], onDelete: Restrict)
   note            String?
   resultingStatus ReportTestStatus?
-  createdAt       DateTime         @default(now())
+  createdAt       DateTime          @default(now())
 
   @@index([reportId, createdAt])
   @@index([testId, createdAt])
@@ -815,20 +835,164 @@ model ReportShare {
 }
 
 model ReportAuditLog {
-  id        String             @id @default(uuid())
+  id        String            @id @default(uuid())
   reportId  String?
-  report    MedicalReport?     @relation(fields: [reportId], references: [id], onDelete: SetNull)
+  report    MedicalReport?    @relation(fields: [reportId], references: [id], onDelete: SetNull)
   reportRef String?
   actorId   String?
-  actor     User?              @relation("ReportAuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  actor     User?             @relation("ReportAuditActor", fields: [actorId], references: [id], onDelete: SetNull)
   actorRole Role?
   action    ReportAuditAction
   detail    Json?
   requestId String?
-  createdAt DateTime           @default(now())
+  createdAt DateTime          @default(now())
 
   @@index([reportId, createdAt])
   @@index([actorId, createdAt])
   @@index([action, createdAt])
   @@map("report_audit_logs")
+}
+
+// ---------- Facility registration codes (Phase 7) ----------
+
+enum FacilityCodeStatus {
+  ACTIVE
+  REVOKED
+}
+
+enum FacilityCodeAuditAction {
+  CREATED
+  ROTATED
+  REVOKED
+  EXPIRY_CHANGED
+  REGISTRATION_USED
+}
+
+// An invitation credential for one facility. Only a keyed HMAC of the code is
+// stored (codeLookup), never the code itself; EXPIRED is derived from expiresAt.
+model FacilityRegistrationCode {
+  id         String             @id @default(uuid())
+  facilityId String
+  facility   Facility           @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  // HMAC-SHA256(FACILITY_CODE_PEPPER, normalized code). Unique enables O(1) lookup.
+  codeLookup String             @unique
+  status     FacilityCodeStatus @default(ACTIVE)
+  expiresAt  DateTime?
+
+  createdById String?
+  createdBy   User?   @relation("FacilityCodeCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  revokedAt   DateTime?
+  revokedById String?
+  revokedBy   User?     @relation("FacilityCodeRevokedBy", fields: [revokedById], references: [id], onDelete: SetNull)
+
+  lastUsedAt DateTime?
+  usageCount Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  audits FacilityCodeAudit[]
+
+  @@index([facilityId, status])
+  @@map("facility_registration_codes")
+}
+
+// Who created, rotated, revoked or used a code. Never contains the code value
+// or any staff/patient personal information.
+model FacilityCodeAudit {
+  id         String                    @id @default(uuid())
+  facilityId String
+  facility   Facility                  @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  codeId     String?
+  code       FacilityRegistrationCode? @relation(fields: [codeId], references: [id], onDelete: SetNull)
+  actorId    String?
+  actor      User?                     @relation("FacilityCodeAuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  action     FacilityCodeAuditAction
+  detail     Json?
+  createdAt  DateTime                  @default(now())
+
+  @@index([facilityId, createdAt])
+  @@index([action, createdAt])
+  @@map("facility_code_audits")
+}
+
+// ---------- Verified cross-facility vaccination access (Phase 7) ----------
+
+// OTP can be added later without a schema change: the grant records how access
+// was verified.
+enum ChildAccessVerificationMethod {
+  MANUAL_ATTESTED
+  OTP
+}
+
+enum ChildAccessAuditAction {
+  VERIFICATION_SUCCEEDED
+  VERIFICATION_FAILED
+  GRANT_EXTENDED
+  REGISTRATION_GRANT_ISSUED
+  CROSS_FACILITY_READ
+  CROSS_FACILITY_DOSE_RECORDED
+}
+
+// Temporary, child-specific access for one staff member at one facility.
+// Expired/revoked rows are kept: they are the access history.
+model ChildAccessGrant {
+  id         String   @id @default(uuid())
+  childId    String
+  child      Child    @relation(fields: [childId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation("ChildAccessGrantedTo", fields: [userId], references: [id], onDelete: Cascade)
+  facilityId String
+  facility   Facility @relation("ChildAccessGrantFacility", fields: [facilityId], references: [id], onDelete: Cascade)
+
+  verificationMethod ChildAccessVerificationMethod @default(MANUAL_ATTESTED)
+  grantedAt          DateTime                      @default(now())
+  expiresAt          DateTime
+  lastUsedAt         DateTime?
+  revokedAt          DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([childId, userId])
+  @@index([userId, expiresAt])
+  @@map("child_access_grants")
+}
+
+// Verification and cross-facility write events. No mobile number, date of birth
+// or other submitted verification value is ever stored here.
+model ChildAccessAudit {
+  id         String                 @id @default(uuid())
+  childId    String?
+  child      Child?                 @relation(fields: [childId], references: [id], onDelete: SetNull)
+  actorId    String?
+  actor      User?                  @relation("ChildAccessAuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  facilityId String?
+  facility   Facility?              @relation("ChildAccessAuditFacility", fields: [facilityId], references: [id], onDelete: SetNull)
+  action     ChildAccessAuditAction
+  detail     Json?
+  createdAt  DateTime               @default(now())
+
+  @@index([childId, createdAt])
+  @@index([actorId, createdAt])
+  @@index([action, createdAt])
+  @@map("child_access_audits")
+}
+
+// Historical snapshot of the removed permanent child-facility link.
+// It is inert: no service reads it for authorization, lists, dashboards or
+// worklists. It stores identifiers only (no name, mobile, address or date of
+// birth), cascades when the child row is deleted, and is purged after a fixed
+// retention period by the reminder scheduler.
+model ChildFacilityAssignmentArchive {
+  id         String   @id @default(uuid())
+  childId    String
+  child      Child    @relation("ChildFacilityArchive", fields: [childId], references: [id], onDelete: Cascade)
+  facilityId String?
+  archivedAt DateTime @default(now())
+
+  @@index([childId])
+  @@index([archivedAt])
+  @@map("child_facility_assignment_archive")
 }

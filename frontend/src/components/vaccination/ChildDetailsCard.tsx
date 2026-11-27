@@ -25,7 +25,7 @@ export default function ChildDetailsCard({ child, profile }: ChildDetailsCardPro
     { label: 'Gender', value: capitalise(child.gender) },
     { label: 'Village', value: child.village },
     { label: 'District', value: child.district },
-    { label: 'Facility', value: child.assignedFacility?.name ?? null },
+    { label: 'Registered by', value: child.registeredBy?.name ?? null },
     { label: 'JE endemic area', value: child.jeEndemicArea ? 'Yes' : 'No' },
     { label: 'Preferred language', value: child.preferredLanguage === 'HI' ? 'Hindi' : 'English' },
     { label: 'SMS reminders', value: child.smsConsent ? 'Consented' : 'Not consented' },

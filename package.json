@@ -11,7 +11,8 @@
     "seed:disease-info": "ts-node prisma/seedDiseaseInfo.ts",
     "seed:admin": "ts-node prisma/seedAdmin.ts",
     "seed:vaccines": "ts-node prisma/seedVaccines.ts",
-    "test:reports": "node --require ts-node/register --test \"src/modules/reports/tests/*.test.ts\""
+    "test:reports": "node --require ts-node/register --test \"src/modules/reports/tests/*.test.ts\"",
+    "test:integration": "node --require ts-node/register --test --test-concurrency=1 \"src/modules/vaccination/tests/integration/*.test.ts\""
   },
   "keywords": [],
   "author": "",

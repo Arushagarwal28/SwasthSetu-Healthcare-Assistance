@@ -8,9 +8,18 @@ interface DoseListProps {
   doses: ChildDashboardDose[];
   emptyText: string;
   onAction?: (dose: ChildDashboardDose) => void;
+  /** Verified cross-facility staff cannot correct another facility's given dose. */
+  allowCorrections?: boolean;
 }
 
-export default function DoseList({ title, description, doses, emptyText, onAction }: DoseListProps) {
+export default function DoseList({
+  title,
+  description,
+  doses,
+  emptyText,
+  onAction,
+  allowCorrections = true,
+}: DoseListProps) {
   return (
     <Card title={title} description={description}>
       {doses.length === 0 ? (
@@ -40,15 +49,24 @@ export default function DoseList({ title, description, doses, emptyText, onActio
                 {dose.administeredOn && (
                   <p className="mt-0.5 text-xs text-emerald-700">
                     Given on {dose.administeredOn}
-                    {dose.administeredFacility ? ` at ${dose.administeredFacility.name}` : ''}
+                    {dose.administeredFacility
+                      ? ` at ${dose.administeredFacility.name}`
+                      : ' · administering facility not recorded'}
                     {dose.recordedBy ? ` · recorded by ${dose.recordedBy.name}` : ''}
+                  </p>
+                )}
+
+                {dose.wasLate && (
+                  <p className="mt-0.5 text-xs font-medium text-amber-700">
+                    Given late: {dose.daysLate} {dose.daysLate === 1 ? 'day' : 'days'} after the due
+                    date
                   </p>
                 )}
 
                 {dose.notes && <p className="mt-0.5 text-xs text-slate-600">{dose.notes}</p>}
               </div>
 
-              {onAction && (
+              {onAction && (allowCorrections || dose.recordedStatus !== 'ADMINISTERED') && (
                 <button
                   type="button"
                   onClick={() => onAction(dose)}

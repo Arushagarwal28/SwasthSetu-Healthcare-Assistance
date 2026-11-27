@@ -76,7 +76,28 @@ export const registerChildValidation = [
   body('jeEndemicArea').optional().isBoolean().withMessage('jeEndemicArea must be true or false').toBoolean(),
   body('preferredLanguage').optional().isIn(['EN', 'HI']).withMessage('preferredLanguage must be EN or HI'),
   body('smsConsent').optional().isBoolean().withMessage('smsConsent must be true or false').toBoolean(),
-  body('facilityId').optional({ values: 'falsy' }).isUUID().withMessage('facilityId must be a valid id'),
+  body('operatingFacilityId')
+    .optional({ values: 'falsy' })
+    .isUUID()
+    .withMessage('operatingFacilityId must be a valid id'),
+  body('facilityId')
+    .custom((value) => {
+      if (value !== undefined && value !== null && value !== '') {
+        throw new Error('facilityId is no longer accepted; use operatingFacilityId');
+      }
+      return true;
+    }),
+  body('guardianConsentConfirmed')
+    .optional()
+    .isBoolean()
+    .withMessage('guardianConsentConfirmed must be true or false')
+    .toBoolean(),
+  body('guardianConsentConfirmed').custom((value, { req }) => {
+    if (req.user?.role === 'HOSPITAL_STAFF' && value !== true) {
+      throw new Error('Confirm that the guardian consents to this vaccination record being created');
+    }
+    return true;
+  }),
   body('confirmDuplicate').optional().isBoolean().withMessage('confirmDuplicate must be true or false').toBoolean(),
 
   // --- vaccines the child already received ---

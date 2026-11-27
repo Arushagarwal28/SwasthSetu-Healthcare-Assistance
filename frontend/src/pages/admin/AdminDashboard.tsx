@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
-import { createFacility, fetchAdminOverview, updateFacility } from '../../api/admin';
-import type { AdminFacility, AdminOverview, FacilityFormValues } from '../../types/admin';
+import { createFacility, fetchAdminOverview, fetchUnlinkedStaff, linkStaff, updateFacility } from '../../api/admin';
+import type {
+  AdminFacility, AdminOverview, FacilityFormValues, IssuedRegistrationCode, UnlinkedStaff,
+} from '../../types/admin';
 import { getApiErrorMessage } from '../../utils/errors';
 import DashboardShell from '../../components/layout/DashboardShell';
 import { secondaryButtonLink } from '../../components/ui/buttonLink';
@@ -10,6 +12,7 @@ import EmptyState from '../../components/ui/EmptyState';
 import ErrorBlock from '../../components/ui/ErrorBlock';
 import AdminFacilityCard from '../../components/admin/AdminFacilityCard';
 import FacilityFormModal from '../../components/admin/FacilityFormModal';
+import RegistrationCodeReveal from '../../components/admin/RegistrationCodeReveal';
 import VaccinationModule from '../vaccination/VaccinationModule';
 import ReportModule from '../../modules/reports/ReportModule';
 
@@ -32,11 +35,24 @@ function AdminFacilitiesHome() {
   const [search, setSearch] = useState('');
   // undefined = closed, null = creating, facility = editing
   const [form, setForm] = useState<AdminFacility | null | undefined>(undefined);
+  // The code is only ever available in this response, so it is held here once.
+  const [newCode, setNewCode] = useState<{ facilityName: string; issued: IssuedRegistrationCode } | null>(null);
+
+  // Staff who registered before facility codes existed may have no facility yet.
+  const [unlinked, setUnlinked] = useState<UnlinkedStaff[]>([]);
+  const [linkChoice, setLinkChoice] = useState<Record<string, string>>({});
+  const [linkingId, setLinkingId] = useState<string | null>(null);
+  const [linkError, setLinkError] = useState('');
 
   const load = useCallback(async () => {
     setError('');
     try {
-      setOverview(await fetchAdminOverview());
+      const [nextOverview, nextUnlinked] = await Promise.all([
+        fetchAdminOverview(),
+        fetchUnlinkedStaff().catch(() => [] as UnlinkedStaff[]),
+      ]);
+      setOverview(nextOverview);
+      setUnlinked(nextUnlinked);
     } catch (err) {
       setError(getApiErrorMessage(err, 'Could not load facilities. Please try again.'));
     } finally {
@@ -58,11 +74,30 @@ function AdminFacilitiesHome() {
       await updateFacility(form.id, values);
       setNotice(`${values.name} updated.`);
     } else {
-      await createFacility(values);
-      setNotice(`${values.name} added. Next, tag its specialties and link its staff.`);
+      const created = await createFacility(values);
+      if (created?.registrationCode?.code) {
+        setNewCode({ facilityName: created.name, issued: created.registrationCode });
+      }
+      setNotice(`${values.name} added. Give its registration code to the staff who should join it.`);
     }
     setForm(undefined);
     await load();
+  };
+
+  const handleLinkUnlinked = async (userId: string) => {
+    const facilityId = linkChoice[userId];
+    if (!facilityId) return;
+    setLinkingId(userId);
+    setLinkError('');
+    try {
+      await linkStaff(facilityId, unlinked.find((s) => s.id === userId)?.email ?? '');
+      setNotice('Staff member linked to the facility.');
+      await load();
+    } catch (err) {
+      setLinkError(getApiErrorMessage(err, 'Could not link that staff member.'));
+    } finally {
+      setLinkingId(null);
+    }
   };
 
   const facilities = overview?.facilities ?? [];
@@ -116,6 +151,51 @@ function AdminFacilitiesHome() {
 
         {!loading && error && <ErrorBlock message={error} onRetry={load} />}
 
+        {!loading && !error && unlinked.length > 0 && (
+          <section className="rounded-2xl border border-amber-200 bg-amber-50/60 p-5">
+            <h2 className="text-base font-semibold text-slate-900">Hospital staff without a facility</h2>
+            <p className="mt-0.5 text-sm text-slate-600">
+              These accounts registered before facility codes were introduced. Link them to the
+              right facility so they can receive referrals and vaccination access.
+            </p>
+            <ul className="mt-3 divide-y divide-amber-200/70 rounded-lg border border-amber-200 bg-white">
+              {unlinked.map((person) => (
+                <li key={person.id} className="flex flex-col gap-2 px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between">
+                  <span className="truncate text-sm text-slate-700">{person.email}</span>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <select
+                      aria-label={`Facility for ${person.email}`}
+                      value={linkChoice[person.id] ?? ''}
+                      onChange={(e) => setLinkChoice((prev) => ({ ...prev, [person.id]: e.target.value }))}
+                      className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    >
+                      <option value="">Choose a facility…</option>
+                      {facilities.filter((f) => f.isActive).map((f) => (
+                        <option key={f.id} value={f.id}>{f.name}</option>
+                      ))}
+                    </select>
+                    <Button
+                      variant="secondary"
+                      className="!px-3 !py-1.5"
+                      disabled={!linkChoice[person.id]}
+                      loading={linkingId === person.id}
+                      loadingText="Linking…"
+                      onClick={() => void handleLinkUnlinked(person.id)}
+                    >
+                      Link
+                    </Button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {linkError && (
+              <p role="alert" className="mt-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                {linkError}
+              </p>
+            )}
+          </section>
+        )}
+
         {!loading && !error && facilities.length === 0 && (
           <EmptyState
             title="No facilities yet"
@@ -142,6 +222,14 @@ function AdminFacilitiesHome() {
           </div>
         )}
       </div>
+
+      {newCode && (
+        <RegistrationCodeReveal
+          facilityName={newCode.facilityName}
+          issued={newCode.issued}
+          onClose={() => setNewCode(null)}
+        />
+      )}
 
       {form !== undefined && (
         <FacilityFormModal

@@ -27,9 +27,24 @@ export interface PersonLike {
 export const toPerson = (u: PersonLike | null) =>
   u ? { id: u.id, role: u.role, name: u.helperProfile?.fullName ?? u.email } : null;
 
+/**
+ * Lateness is DERIVED, never a separate status: an ADMINISTERED dose is late when
+ * it was given after the date it was scheduled for (the current due date, which
+ * is the scheduled date unless the dose was postponed).
+ */
+export const doseLateness = (
+  dueDate: string,
+  administeredOn: string | null
+): { wasLate: boolean; daysLate: number } => {
+  if (!administeredOn || administeredOn <= dueDate) return { wasLate: false, daysLate: 0 };
+  return { wasLate: true, daysLate: daysBetween(dueDate, administeredOn) };
+};
+
 export const toDoseView = (d: DoseRow, today: string) => {
   const dueDate = toYmd(d.dueDate);
+  const administeredOn = d.administeredOn ? toYmd(d.administeredOn) : null;
   const status: EffectiveStatus = deriveDoseStatus({ recordedStatus: d.recordedStatus, dueDate }, today);
+  const lateness = doseLateness(dueDate, administeredOn);
   return {
     id: d.id,
     vaccineCode: d.vaccineCode,
@@ -43,7 +58,8 @@ export const toDoseView = (d: DoseRow, today: string) => {
     status,
     daysOverdue: status === 'OVERDUE' ? daysBetween(dueDate, today) : 0,
     daysUntilDue: dueDate > today ? daysBetween(today, dueDate) : 0,
-    administeredOn: d.administeredOn ? toYmd(d.administeredOn) : null,
+    administeredOn,
+    ...lateness,
     administeredFacility: d.administeredFacility,
     recordedBy: toPerson(d.recordedBy),
     isHistorical: d.isHistorical,

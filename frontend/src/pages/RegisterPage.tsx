@@ -42,12 +42,12 @@ const ROLE_OPTIONS: {
 
 const CODE_LABEL: Record<Exclude<RegisterRole, 'PATIENT'>, string> = {
   HELPER: 'PHC Reference Code',
-  HOSPITAL_STAFF: 'Hospital Reference Code',
+  HOSPITAL_STAFF: 'Facility registration code',
 };
 
 const CODE_PLACEHOLDER: Record<Exclude<RegisterRole, 'PATIENT'>, string> = {
   HELPER: 'Provided by your PHC',
-  HOSPITAL_STAFF: 'Provided by your hospital administrator',
+  HOSPITAL_STAFF: 'Provided by your facility administrator',
 };
 
 export default function RegisterPage() {
@@ -133,7 +133,8 @@ export default function RegisterPage() {
         email: email.trim(),
         password,
         role,
-        ...(role !== 'PATIENT' ? { referenceCode: referenceCode.trim() } : {}),
+        ...(role === 'HELPER' ? { referenceCode: referenceCode.trim() } : {}),
+        ...(role === 'HOSPITAL_STAFF' ? { facilityRegistrationCode: referenceCode.trim() } : {}),
         ...(role === 'HELPER'
           ? { fullName: fullName.trim(), phone }
           : {}),
@@ -144,7 +145,6 @@ export default function RegisterPage() {
         navigate('/login', { replace: true });
       }, 1000);
     } catch (error: any) {
-      console.error('REGISTRATION ERROR:', error);
       const message =
         error?.response?.data?.message ||
         error?.response?.data?.error?.message ||
@@ -373,7 +373,7 @@ export default function RegisterPage() {
                   <p className="mt-1.5 text-xs text-slate-500">
                     {role === 'HELPER'
                       ? 'Enter the reference code provided by your authorized PHC.'
-                      : 'Enter the reference code provided by your hospital administrator.'}
+                      : 'Enter the code your facility administrator gave you. Your account is linked to that facility automatically.'}
                   </p>
                   {errors.referenceCode && <p className="mt-1.5 text-xs text-red-600">{errors.referenceCode}</p>}
                 </div>

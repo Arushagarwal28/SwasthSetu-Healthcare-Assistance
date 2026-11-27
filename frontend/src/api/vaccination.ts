@@ -48,6 +48,9 @@ import type {
   FacilityOption,
   VaccineScheduleView,
   ChildDashboardDose,
+  MyFacility,
+  VerifiedAccessRecord,
+  VerifiedAccessResult,
 } from '../types/vaccination';
 
 /** Turns `string | string[]` into the comma-separated form the API expects. */
@@ -202,7 +205,6 @@ export const getWorklist = async (params: WorklistQuery = {}): Promise<WorklistR
       days: params.days,
       page: params.page,
       limit: params.limit,
-      facilityId: params.facilityId,
       search: params.search,
     },
   });
@@ -461,6 +463,12 @@ export interface VaccinationScopeStats {
   dueToday: number;
   dueNext7Days: number;
   administeredLast30Days: number;
+  facilityActivity: {
+    facilityId: string;
+    name: string;
+    dosesAdministeredLast30Days: number;
+    encountersLast30Days: number;
+  }[];
 }
 
 export interface VaccinationCoverageRow {
@@ -476,9 +484,11 @@ export interface VaccinationAdminStats {
   children: {
     total: number;
     registeredLast30Days: number;
-    withoutFacility: number;
     byDistrict: { district: string; count: number }[];
-    topFacilities: { facilityId: string; name: string; count: number }[];
+  };
+  activity: {
+    dosesByFacility: { facilityId: string; name: string; total: number; last30Days: number }[];
+    facilitiesWithActivity: number;
   };
   doses: {
     total: number;
@@ -618,4 +628,38 @@ export const runAdminReminders = async (asOf?: string): Promise<ReminderCycleSta
     asOf ? { asOf } : {},
   );
   return res.data.data;
+};
+
+// ---------- Cross-facility verification (Phase 7) ----------
+
+export interface VerifyChildAccessInput {
+  recordNumber: string;
+  guardianMobile: string;
+  dateOfBirth: string;
+  guardianConsentConfirmed: boolean;
+  /** Required when the staff member is linked to more than one active facility. */
+  facilityId?: string;
+}
+
+/**
+ * POST /children/verify-access. All three identity fields must match on the
+ * server; a mismatch returns one generic error, never which field was wrong.
+ */
+export const verifyChildAccess = async (
+  input: VerifyChildAccessInput,
+): Promise<VerifiedAccessResult> => {
+  const res = await axiosClient.post('/children/verify-access', input);
+  return res.data.data as VerifiedAccessResult;
+};
+
+/** The temporary grants this staff account currently holds. */
+export const fetchVerifiedAccess = async (): Promise<VerifiedAccessRecord[]> => {
+  const res = await axiosClient.get('/children/verified-access');
+  return res.data.data as VerifiedAccessRecord[];
+};
+
+/** The signed-in hospital staff member's assigned facilities. */
+export const fetchMyFacilities = async (): Promise<MyFacility[]> => {
+  const res = await axiosClient.get('/facilities/mine');
+  return res.data.data as MyFacility[];
 };

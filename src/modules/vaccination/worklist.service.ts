@@ -13,7 +13,6 @@ export interface WorklistOptions {
   days: number; // how far ahead "upcoming" looks
   page: number;
   limit: number;
-  facilityId?: string | undefined;
   search?: string | undefined;
 }
 
@@ -46,10 +45,11 @@ export const getWorklist = async (actor: Actor, opts: WorklistOptions) => {
   const today = todayInIst();
   const access = await childAccessFilter(actor);
 
+  // No facility filter: a child is not owned by a facility, and a staff member's
+  // worklist is exactly the set of children they hold a live grant for.
   const childFilter: Prisma.ChildWhereInput = {
     AND: [
       access,
-      ...(opts.facilityId ? [{ assignedFacilityId: opts.facilityId }] : []),
       ...(opts.search ? [{ fullName: { contains: opts.search, mode: 'insensitive' as const } }] : []),
     ],
   };

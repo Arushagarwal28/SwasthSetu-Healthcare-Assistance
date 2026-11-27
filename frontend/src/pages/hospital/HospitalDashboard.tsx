@@ -10,6 +10,8 @@ import {
 import type { IncomingReferral, IncomingReferralsResponse, ReferralStatus } from '../../types/referral';
 import { getApiErrorMessage } from '../../utils/errors';
 import { useReferralUpdates } from '../../realtime/useReferralUpdates';
+import { fetchMyFacilities } from '../../api/vaccination';
+import type { MyFacility } from '../../types/vaccination';
 import DashboardShell from '../../components/layout/DashboardShell';
 import { secondaryButtonLink } from '../../components/ui/buttonLink';
 import Button from '../../components/ui/Button';
@@ -54,6 +56,7 @@ function HospitalReferralsHome() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [action, setAction] = useState<{ referral: IncomingReferral; mode: ActionMode } | null>(null);
+  const [myFacilities, setMyFacilities] = useState<MyFacility[]>([]);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -70,6 +73,11 @@ function HospitalReferralsHome() {
   useEffect(() => {
     load();
   }, [load]);
+
+  useEffect(() => {
+    // Assigned facility details come from the facility link, not from this page.
+    fetchMyFacilities().then(setMyFacilities).catch(() => setMyFacilities([]));
+  }, []);
 
   // Live updates: a referral arrived or changed, so refresh the current tab
   useReferralUpdates((event) => {
@@ -122,6 +130,29 @@ function HospitalReferralsHome() {
             </Button>
           </div>
         </div>
+
+        {myFacilities.length > 0 && (
+          <section aria-label="Assigned facility" className="rounded-xl border border-slate-200 bg-white px-4 py-3">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Assigned facility</p>
+            {myFacilities.map((facility) => (
+              <div key={facility.id} className="mt-1">
+                <p className="text-sm font-medium text-slate-900">
+                  {facility.name}
+                  <span className="ml-2 text-xs font-normal text-slate-500">{facility.type}</span>
+                  {!facility.isActive && (
+                    <span className="ml-2 rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-[11px] text-amber-800">
+                      Inactive
+                    </span>
+                  )}
+                </p>
+                <p className="text-xs text-slate-500">
+                  {facility.address}
+                  {facility.phone ? ` · ${facility.phone}` : ''}
+                </p>
+              </div>
+            ))}
+          </section>
+        )}
 
         <div role="tablist" aria-label="Referral status" className="flex gap-1 overflow-x-auto border-b border-slate-200">
           {TABS.map((tab) => {

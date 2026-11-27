@@ -15,11 +15,18 @@ export const registerValidation = [
     .isIn(['PATIENT', 'HELPER', 'HOSPITAL_STAFF'])
     .withMessage('Invalid role'),
 
-  // New clients send referenceCode; retain phcReferenceCode for older clients.
+  // Helpers use the shared PHC reference code. New clients send referenceCode;
+  // retain phcReferenceCode for older clients.
   body('referenceCode')
-    .if(body('role').isIn(['HELPER', 'HOSPITAL_STAFF']))
+    .if(body('role').equals('HELPER'))
     .custom((value, { req }) => Boolean(value || req.body.phcReferenceCode))
     .withMessage('A reference code is required for this role'),
+
+  // Hospital staff are authorized by their facility's own registration code.
+  body('facilityRegistrationCode')
+    .if(body('role').equals('HOSPITAL_STAFF'))
+    .custom((value) => typeof value === 'string' && value.trim() !== '')
+    .withMessage('Facility registration code is required'),
 
   body('fullName')
     .if(body('role').equals('HELPER'))

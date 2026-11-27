@@ -89,6 +89,11 @@ export interface ChildProfileDose {
   recordedStatus: DoseRecordStatus;
   status: EffectiveDoseStatus;
   administeredOn: string | null;
+  administeredFacility: { id: string; name: string } | null;
+  recordedBy: { id: string; role: string; name: string } | null;
+  /** Derived on the server: given after the scheduled due date. */
+  wasLate: boolean;
+  daysLate: number;
   isHistorical: boolean;
   notes: string | null;
 }
@@ -127,10 +132,13 @@ export interface ChildProfile {
   preferredLanguage: PreferredLanguage;
   smsConsent: boolean;
   smsConsentAt: string | null;
-  assignedFacility: FacilitySummary | null;
+  /** The healthcare worker who registered the child (accountability, not ownership). */
+  registeredBy: PersonRef | null;
   createdAt: string;
   doses: ChildProfileDose[];
   summary: ChildProfileSummary;
+  accessType: ChildAccessType;
+  accessExpiresAt: string | null;
 }
 
 /**
@@ -148,7 +156,9 @@ export interface ChildListItem {
   gender: ChildGender;
   village: string;
   district: string;
-  assignedFacility: { id: string; name: string } | null;
+  /** VERIFIED means the row is visible through a temporary grant. */
+  accessType: ChildAccessType;
+  accessExpiresAt: string | null;
   createdAt: string;
   overdueCount: number;
   dueTodayCount: number;
@@ -195,7 +205,10 @@ export interface RegisterChildInput {
   jeEndemicArea?: boolean;
   preferredLanguage?: PreferredLanguage;
   smsConsent?: boolean;
-  facilityId?: string | null;
+  /** The facility where this registration encounter happens. Never stored on the child. */
+  operatingFacilityId?: string | null;
+  /** Staff registrations require an explicit guardian-consent attestation. */
+  guardianConsentConfirmed?: boolean;
   /** Send true only after the user has seen the duplicate warning and confirmed. */
   confirmDuplicate?: boolean;
   history?: ChildHistoryInput[];
@@ -252,6 +265,8 @@ export interface DoseView {
   administeredOn: string | null;
   administeredFacility: { id: string; name: string } | null;
   recordedBy: PersonRef | null;
+  wasLate: boolean;
+  daysLate: number;
   isHistorical: boolean;
   notes: string | null;
 }
@@ -267,7 +282,10 @@ export interface RecordDoseInput {
   note?: string;
   /** ADMINISTERED only; stored inside the dose note by the backend. */
   batchNumber?: string;
-  /** ADMINISTERED only; must be a facility the user is linked to. */
+  /**
+   * The facility of this encounter. Must be a facility the user is linked to;
+   * under a temporary grant it must be the grant's facility.
+   */
   facilityId?: string;
 }
 
@@ -286,7 +304,7 @@ export interface ChildDashboardChild {
   jeEndemicArea: boolean;
   preferredLanguage: PreferredLanguage;
   smsConsent: boolean;
-  assignedFacility: FacilitySummary | null;
+  registeredBy: PersonRef | null;
 }
 
 export interface ChildDashboardSummary {
@@ -314,6 +332,7 @@ export interface DoseActivity {
   toStatus: DoseRecordStatus;
   fromDueDate: string | null;
   toDueDate: string | null;
+  facility: { id: string; name: string } | null;
   note: string | null;
   changedBy: PersonRef | null;
 }
@@ -321,6 +340,9 @@ export interface DoseActivity {
 export interface ChildDashboard {
   child: ChildDashboardChild;
   asOf: string;
+  /** How the signed-in user reached this child; VERIFIED means temporary access. */
+  accessType: ChildAccessType;
+  accessExpiresAt: string | null;
   summary: ChildDashboardSummary;
   overdue: DoseView[];
   dueToday: DoseView[];
@@ -343,6 +365,7 @@ export interface ChildHistoryItem {
   toStatus: DoseRecordStatus;
   fromDueDate: string | null;
   toDueDate: string | null;
+  facility: { id: string; name: string } | null;
   note: string | null;
   changedBy: PersonRef | null;
 }
@@ -412,7 +435,6 @@ export interface WorklistQuery {
   days?: number;
   page?: number;
   limit?: number;
-  facilityId?: string;
   /** Child name search, performed by the backend (`contains`, case-insensitive). */
   search?: string;
 }
@@ -442,6 +464,13 @@ export interface ScopeStats {
   dueToday: number;
   dueNext7Days: number;
   administeredLast30Days: number;
+  /** Empty for helpers; staff see activity at their linked facilities. */
+  facilityActivity: {
+    facilityId: string;
+    name: string;
+    dosesAdministeredLast30Days: number;
+    encountersLast30Days: number;
+  }[];
 }
 
 export interface VaccineCoverageRow {
@@ -457,10 +486,11 @@ export interface DistrictCount {
   count: number;
 }
 
-export interface FacilityCount {
-  facilityId: string | null;
+export interface FacilityActivity {
+  facilityId: string;
   name: string;
-  count: number;
+  total: number;
+  last30Days: number;
 }
 
 export interface DeliveryCount {
@@ -475,9 +505,12 @@ export interface AdminStats {
   children: {
     total: number;
     registeredLast30Days: number;
-    withoutFacility: number;
     byDistrict: DistrictCount[];
-    topFacilities: FacilityCount[];
+  };
+  /** Vaccination activity by facility. Never child ownership. */
+  activity: {
+    dosesByFacility: FacilityActivity[];
+    facilitiesWithActivity: number;
   };
   doses: {
     total: number;
@@ -697,6 +730,52 @@ export interface ReminderCycleStats {
  * them as aliases rather than redeclaring duplicate interfaces/type aliases.
  */
 
+export type ChildAccessType = 'OWN' | 'VERIFIED' | 'NONE';
+
+/** One live temporary grant, as listed on the staff dashboard. */
+export interface VerifiedAccessRecord {
+  childId: string;
+  recordNumber: string;
+  fullName: string;
+  dateOfBirth: string;
+  /** The latest administration, not a registration facility. */
+  lastVaccination: { administeredOn: string; facility: { id: string; name: string } | null } | null;
+  grantedAt: string;
+  expiresAt: string;
+  accessFacilityId: string;
+}
+
+/** Successful result of the three-field verification. */
+export interface VerifiedAccessResult {
+  child: {
+    id: string;
+    recordNumber: string;
+    fullName: string;
+    dateOfBirth: string;
+    gender: string;
+    village: string;
+    district: string;
+    lastVaccination: { administeredOn: string; facility: { id: string; name: string } | null } | null;
+  };
+  access: {
+    verificationMethod: 'MANUAL_ATTESTED' | 'OTP';
+    expiresAt: string;
+    facility: { id: string };
+  };
+}
+
+/** A hospital staff member's assigned facility (GET /facilities/mine). */
+export interface MyFacility {
+  id: string;
+  name: string;
+  type: string;
+  address: string;
+  phone: string | null;
+  district: string | null;
+  pinCode: string | null;
+  isActive: boolean;
+}
+
 export type ChildSummary = ChildListItem;
 export type ChildrenPage = ChildListResponse;
 
@@ -712,8 +791,8 @@ export interface DuplicateChildMatch {
   fullName: string;
   dateOfBirth: string;
   gender: string;
-  village: string;
-  district: string;
+  village: string | null;
+  district: string | null;
   matchedOn: DuplicateReason[];
   canView: boolean;
 }
@@ -743,6 +822,8 @@ export interface ChildDashboardDose {
   administeredOn: string | null;
   administeredFacility: { id: string; name: string } | null;
   recordedBy: { id: string; role: string; name: string } | null;
+  wasLate: boolean;
+  daysLate: number;
   isHistorical: boolean;
   notes: string | null;
 }
@@ -759,7 +840,7 @@ export interface ChildDashboardChild {
   jeEndemicArea: boolean;
   preferredLanguage: PreferredLanguage;
   smsConsent: boolean;
-  assignedFacility: { id: string; name: string; type: string } | null;
+  registeredBy: PersonRef | null;
 }
 
 export interface ChildDashboardSummary {
@@ -786,6 +867,7 @@ export interface ChildActivityEntry {
   toStatus: DoseRecordStatus;
   fromDueDate: string | null;
   toDueDate: string | null;
+  facility: { id: string; name: string } | null;
   note: string | null;
   changedBy: { id: string; role: string; name: string } | null;
 }
@@ -793,6 +875,9 @@ export interface ChildActivityEntry {
 export interface ChildDashboard {
   child: ChildDashboardChild;
   asOf: string;
+  /** How the signed-in user reached this child; VERIFIED means temporary access. */
+  accessType: ChildAccessType;
+  accessExpiresAt: string | null;
   summary: ChildDashboardSummary;
   overdue: ChildDashboardDose[];
   dueToday: ChildDashboardDose[];

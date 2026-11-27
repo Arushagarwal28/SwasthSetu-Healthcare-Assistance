@@ -98,6 +98,23 @@ export default function ChildRecordPage({ basePath }: ChildRecordPageProps) {
         </div>
       )}
 
+      {dashboard.accessType === 'VERIFIED' && (
+        <div role="status" className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <p className="font-medium">Temporary cross-facility access</p>
+          <p className="mt-0.5">
+            You verified this child using their vaccination ID, guardian mobile number and date of
+            birth, and confirmed guardian permission.
+            {dashboard.accessExpiresAt
+              ? ` Access ends ${new Date(dashboard.accessExpiresAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}.`
+              : ''}
+          </p>
+          <p className="mt-1 text-xs text-amber-800">
+            You can view the history, record a dose and mark a dose postponed or not given. Personal
+            details and doses recorded by another facility cannot be changed here.
+          </p>
+        </div>
+      )}
+
       <ChildSummaryCards summary={dashboard.summary} />
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -130,6 +147,7 @@ export default function ChildRecordPage({ basePath }: ChildRecordPageProps) {
         doses={dashboard.completed}
         emptyText="No doses have been recorded yet."
         onAction={setActiveDose}
+        allowCorrections={dashboard.accessType !== 'VERIFIED'}
       />
       <DoseList
         title="Not given"

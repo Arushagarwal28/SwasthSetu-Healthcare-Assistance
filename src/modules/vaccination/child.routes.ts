@@ -2,9 +2,11 @@ import { Router } from 'express';
 import { authenticate, authorize } from '../../middlewares/auth.middleware';
 import { validate } from '../../middlewares/validate';
 import { registerChildValidation, listChildrenValidation, childIdValidation } from './child.validation';
+import { verifyChildAccessValidation } from './child.verify.validation';
 import { recordDoseValidation, updateChildValidation, historyQueryValidation } from './dose.validation';
-import { register, getById, list } from './child.controller';
+import { register, getById, list, verifyAccess, verifiedAccess } from './child.controller';
 import { dashboard, history, recordDoseHandler, updateChild, childReminders, childCentres } from './child.care.controller';
+import { childVerifyLimiter } from '../../middlewares/rateLimiters';
 import { param } from 'express-validator';
 
 const router = Router();
@@ -16,6 +18,18 @@ const doseIdParam = [param('doseId').isUUID().withMessage('Valid dose id is requ
 
 router.post('/', ...staffAndHelpers, validate(registerChildValidation), register);
 router.get('/', ...staffAndHelpers, validate(listChildrenValidation), list);
+
+// Cross-facility verification: three identity fields plus a staff attestation of
+// guardian permission. Rate-limited per account; all matching is server-side.
+router.post(
+  '/verify-access',
+  authenticate,
+  authorize('HOSPITAL_STAFF'),
+  childVerifyLimiter,
+  validate(verifyChildAccessValidation),
+  verifyAccess
+);
+router.get('/verified-access', authenticate, authorize('HOSPITAL_STAFF'), verifiedAccess);
 
 router.get('/:id', ...staffAndHelpers, validate(childIdValidation), getById);
 router.patch('/:id', ...staffAndHelpers, validate([...childIdValidation, ...updateChildValidation]), updateChild);

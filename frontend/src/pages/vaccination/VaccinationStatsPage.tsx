@@ -161,6 +161,28 @@ export default function VaccinationStatsPage() {
         })}
       </div>
 
+      {stats.facilityActivity.length > 0 && (
+        <Card
+          title="Activity at your facilities"
+          description="Doses administered and encounters recorded there in the last 30 days."
+        >
+          <ul className="space-y-2 text-sm">
+            {stats.facilityActivity.map((facility) => (
+              <li
+                key={facility.facilityId}
+                className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-200 px-3 py-2"
+              >
+                <span className="font-medium text-slate-800">{facility.name}</span>
+                <span className="text-xs text-slate-600">
+                  {count(facility.dosesAdministeredLast30Days)} doses administered ·{' '}
+                  {count(facility.encountersLast30Days)} encounters recorded
+                </span>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
+
       <Card title="What needs attention" description="Work through these in order.">
         <ul className="space-y-2 text-sm">
           <li className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-200 px-3 py-2">

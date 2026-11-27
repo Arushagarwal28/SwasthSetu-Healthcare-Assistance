@@ -2,8 +2,8 @@
  * Vaccination worklist — "who needs a vaccine?" for helpers and hospital staff.
  *
  * GET /vaccination/worklist already scopes results to the children the signed-in
- * user may access (a helper's own registrations, or the facilities a staff member
- * is linked to), so no permission logic lives in the browser. The endpoint also
+ * user may access (a helper's own registrations, or the children a staff member
+ * holds a live temporary grant for), so no permission logic lives in the browser. The endpoint also
  * sends the adult-friendly fields (parent mobile, village) and the derived status,
  * so this page only has to group, filter and paginate.
  */

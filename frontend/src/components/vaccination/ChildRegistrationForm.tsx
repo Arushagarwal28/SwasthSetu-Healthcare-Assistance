@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   describeChildRegistrationError,
-  fetchFacilityOptions,
+  fetchMyFacilities,
   fetchVaccineSchedule,
   registerChild,
 } from '../../api/vaccination';
@@ -10,8 +10,8 @@ import type {
   ChildGender,
   ChildProfile,
   DuplicateChildMatch,
-  FacilityOption,
   HistoricalDoseInput,
+  MyFacility,
   PreferredLanguage,
   RegisterChildInput,
   VaccineScheduleView,
@@ -48,7 +48,9 @@ interface FormState {
   jeEndemicArea: boolean;
   preferredLanguage: PreferredLanguage;
   smsConsent: boolean;
-  facilityId: string;
+  /** The facility of this registration encounter; never stored on the child. */
+  operatingFacilityId: string;
+  guardianConsent: boolean;
 }
 
 interface HistoryRow {
@@ -79,7 +81,8 @@ const EMPTY_FORM: FormState = {
   jeEndemicArea: false,
   preferredLanguage: 'EN',
   smsConsent: false,
-  facilityId: '',
+  operatingFacilityId: '',
+  guardianConsent: false,
 };
 
 const GENDER_OPTIONS: { value: ChildGender; label: string }[] = [
@@ -129,7 +132,8 @@ const newHistoryRow = (): HistoryRow => {
 const validateForm = (
   form: FormState,
   history: HistoryRow[],
-  today: string
+  today: string,
+  facilityCount: number
 ): Record<string, string> => {
   const errors: Record<string, string> = {};
   const fullName = form.fullName.trim();
@@ -186,6 +190,14 @@ const validateForm = (
   if (!form.district.trim()) errors.district = 'District is required';
   if (!form.state.trim()) errors.state = 'State is required';
   if (!PIN_CODE.test(form.pinCode.trim())) errors.pinCode = 'Enter a valid 6-digit PIN code';
+
+  if (facilityCount > 1 && !form.operatingFacilityId) {
+    errors.operatingFacilityId = 'Choose the facility where you are registering this child';
+  }
+
+  if (!form.guardianConsent) {
+    errors.guardianConsent = 'Confirm that the guardian consents to this vaccination record';
+  }
 
   const latitude = form.latitude.trim();
   const longitude = form.longitude.trim();
@@ -263,7 +275,8 @@ const buildPayload = (
     jeEndemicArea: form.jeEndemicArea,
     preferredLanguage: form.preferredLanguage,
     smsConsent: form.smsConsent,
-    facilityId: optional(form.facilityId),
+    operatingFacilityId: optional(form.operatingFacilityId),
+    guardianConsentConfirmed: form.guardianConsent,
     confirmDuplicate: confirmDuplicate || undefined,
     history: historyRows.length > 0 ? historyRows : undefined,
   };
@@ -307,7 +320,7 @@ export default function ChildRegistrationForm({ basePath, onRegistered, onCancel
   } | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
-  const [facilities, setFacilities] = useState<FacilityOption[]>([]);
+  const [facilities, setFacilities] = useState<MyFacility[]>([]);
   const [facilityLoadFailed, setFacilityLoadFailed] = useState(false);
   const [schedule, setSchedule] = useState<VaccineScheduleView[]>([]);
   const [scheduleState, setScheduleState] = useState<'loading' | 'ready' | 'failed'>('loading');
@@ -319,9 +332,12 @@ export default function ChildRegistrationForm({ basePath, onRegistered, onCancel
 
   useEffect(() => {
     let cancelled = false;
-    fetchFacilityOptions()
+    // Only the facilities this account is linked to can be the operating
+    // facility. Helpers without a facility link simply get no selector; the
+    // backend still records the registration.
+    fetchMyFacilities()
       .then((rows) => {
-        if (!cancelled) setFacilities(rows);
+        if (!cancelled) setFacilities(rows.filter((row) => row.isActive));
       })
       .catch(() => {
         if (!cancelled) setFacilityLoadFailed(true);
@@ -420,7 +436,7 @@ export default function ChildRegistrationForm({ basePath, onRegistered, onCancel
   };
 
   const submit = async (confirmDuplicate: boolean) => {
-    const found = validateForm(form, history, today);
+    const found = validateForm(form, history, today, facilityOptions.length);
     setErrors(found);
     setApiErrors([]);
 
@@ -700,28 +716,53 @@ export default function ChildRegistrationForm({ basePath, onRegistered, onCancel
               </select>
             </div>
 
-            <div>
-              <label htmlFor="facility" className="block text-sm font-medium text-slate-700 mb-1.5">
-                Facility
-              </label>
-              <select
-                id="facility"
-                value={form.facilityId}
-                onChange={(event) => setField('facilityId', event.target.value)}
-                className={SELECT_CLASS}
-              >
-                <option value="">Use the facility my account is linked to</option>
-                {facilityOptions.map((facility) => (
-                  <option key={facility.id} value={facility.id}>
-                    {facility.name}
+            {facilityOptions.length > 0 && (
+              <div>
+                <label
+                  htmlFor="operating-facility"
+                  className="block text-sm font-medium text-slate-700 mb-1.5"
+                >
+                  Operating facility
+                </label>
+                <select
+                  id="operating-facility"
+                  value={form.operatingFacilityId}
+                  onChange={(event) => setField('operatingFacilityId', event.target.value)}
+                  className={SELECT_CLASS}
+                >
+                  <option value="">
+                    {facilityOptions.length === 1 ? 'Use my only linked facility' : 'Choose the facility'}
                   </option>
-                ))}
-              </select>
-              <p className="text-xs text-slate-500 mt-1.5">
-                {facilityLoadFailed
-                  ? 'The facility list could not be loaded. Leave this blank to use your linked facility.'
-                  : 'Only choose a facility you are linked to; other choices are rejected by the server.'}
-              </p>
+                  {facilityOptions.map((facility) => (
+                    <option key={facility.id} value={facility.id}>
+                      {facility.name}
+                    </option>
+                  ))}
+                </select>
+                <p className="text-xs text-slate-500 mt-1.5">
+                  {errors.operatingFacilityId
+                    ? errors.operatingFacilityId
+                    : 'Where this registration is happening. It is recorded on this encounter, not as the child’s facility.'}
+                </p>
+                {facilityLoadFailed && (
+                  <p className="text-xs text-amber-600 mt-1">
+                    The facility list could not be loaded. Your linked facility will be used if the server can
+                    determine it.
+                  </p>
+                )}
+              </div>
+            )}
+
+            <div className="rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-3">
+              <CheckboxRow
+                label="Guardian consents to this vaccination record"
+                description="The parent or guardian agrees that this record may be created and used for the child’s vaccination care across facilities."
+                checked={form.guardianConsent}
+                onChange={(checked) => setField('guardianConsent', checked)}
+              />
+              {errors.guardianConsent && (
+                <p className="text-xs text-red-600 mt-1.5">{errors.guardianConsent}</p>
+              )}
             </div>
           </div>
         </Card>

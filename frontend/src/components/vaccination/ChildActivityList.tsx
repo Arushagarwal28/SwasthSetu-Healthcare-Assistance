@@ -34,6 +34,11 @@ export default function ChildActivityList({ entries }: ChildActivityListProps) {
                 {entry.toDueDate && entry.fromDueDate !== entry.toDueDate && ` · due ${entry.toDueDate}`}
               </p>
               <p className="text-xs text-slate-500">
+                {entry.facility
+                  ? `Recorded at ${entry.facility.name}`
+                  : 'Facility of this encounter not recorded'}
+              </p>
+              <p className="text-xs text-slate-500">
                 {formatDateTime(entry.at)}
                 {entry.changedBy ? ` · ${entry.changedBy.name}` : ''}
               </p>

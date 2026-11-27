@@ -17,7 +17,6 @@ export const notificationIdValidation = [param('id').isUUID().withMessage('Valid
 export const worklistQueryValidation = [
   query('status').optional().isIn(['OVERDUE', 'DUE', 'UPCOMING', 'ALL']).withMessage('status must be OVERDUE, DUE, UPCOMING or ALL'),
   query('days').optional().isInt({ min: 1, max: 90 }).withMessage('days must be between 1 and 90'),
-  query('facilityId').optional().isUUID().withMessage('facilityId must be a valid id'),
   query('search').optional().isString().isLength({ max: 100 }).withMessage('search must be at most 100 characters'),
   ...page,
 ];

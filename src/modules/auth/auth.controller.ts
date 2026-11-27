@@ -4,19 +4,20 @@ import { AuthRequest } from '../../middlewares/auth.middleware';
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { email, password, role, fullName, phone } = req.body;
+    const { email, password, role, fullName, phone, facilityRegistrationCode } = req.body;
 
     // Keep phcReferenceCode temporarily for compatibility with older clients.
     const referenceCode = req.body.referenceCode ?? req.body.phcReferenceCode;
 
-    const user = await registerUser(
+    const user = await registerUser({
       email,
       password,
       role,
       referenceCode,
+      facilityRegistrationCode,
       fullName,
-      phone
-    );
+      phone,
+    });
 
     res.status(201).json({ success: true, data: user });
   } catch (err) {

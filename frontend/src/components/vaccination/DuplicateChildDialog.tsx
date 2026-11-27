@@ -42,31 +42,48 @@ export default function DuplicateChildDialog({
         <ul className="mt-4 space-y-3">
           {matches.map((match) => (
             <li
-              key={`${match.recordNumber}-${match.id ?? 'restricted'}`}
+              key={`${match.recordNumber ?? 'hidden'}-${match.id ?? 'restricted'}`}
               className="rounded-xl border border-amber-200 bg-amber-50/60 p-4"
             >
-              <div className="flex flex-wrap items-start justify-between gap-2">
-                <div>
-                  <p className="font-medium text-slate-900">{match.fullName}</p>
-                  <p className="text-xs text-slate-600">
-                    {match.recordNumber} · born {match.dateOfBirth}
+              {match.canView ? (
+                <>
+                  <div className="flex flex-wrap items-start justify-between gap-2">
+                    <div>
+                      <p className="font-medium text-slate-900">{match.fullName}</p>
+                      <p className="text-xs text-slate-600">
+                        {match.recordNumber} · born {match.dateOfBirth}
+                      </p>
+                      <p className="text-xs text-slate-600">
+                        {match.village}, {match.district}
+                      </p>
+                    </div>
+                    {match.id && (
+                      <Link
+                        to={`${basePath}/children/${match.id}`}
+                        className="text-sm text-blue-700 hover:text-blue-900 underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                      >
+                        Open record
+                      </Link>
+                    )}
+                  </div>
+                  <p className="mt-2 text-xs text-amber-800">
+                    Matched on {match.matchedOn.map((reason) => REASON_LABEL[reason]).join(', ')}.
                   </p>
-                  <p className="text-xs text-slate-600">
-                    {match.village}, {match.district}
+                </>
+              ) : (
+                <>
+                  <p className="font-medium text-slate-900">
+                    Another existing record may match these details
                   </p>
-                </div>
-                {match.canView && match.id && (
-                  <Link
-                    to={`${basePath}/children/${match.id}`}
-                    className="text-sm text-blue-700 hover:text-blue-900 underline rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-                  >
-                    Open record
-                  </Link>
-                )}
-              </div>
-              <p className="mt-2 text-xs text-amber-800">
-                Matched on {match.matchedOn.map((reason) => REASON_LABEL[reason]).join(', ')}.
-              </p>
+                  <p className="mt-1 text-xs text-slate-600">
+                    Its identity is hidden because you do not have access to it. Ask the parent or
+                    guardian for the child’s vaccination record number and use{' '}
+                    <span className="font-medium">Find a child by vaccination ID</span> to verify the
+                    existing record instead of creating a duplicate. This warning never reveals the
+                    other child’s name, record number, date of birth or address.
+                  </p>
+                </>
+              )}
             </li>
           ))}
         </ul>

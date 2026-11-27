@@ -22,6 +22,19 @@ export const cleanText = (value: unknown): string | null => {
 /** The human-friendly record ID shown to staff, e.g. SSV-000123. */
 export const formatRecordNumber = (n: number): string => `SSV-${String(n).padStart(6, '0')}`;
 
+/**
+ * Reads a record number typed by staff: "SSV-000123", "ssv 123" or "000123"
+ * all become 123. Anything else (including wildcards) is rejected, so the lookup
+ * can never be turned into a partial or range search.
+ */
+export const parseRecordNumber = (value: unknown): number | null => {
+  const text = String(value ?? '').trim().toUpperCase().replace(/[\s-]/g, '');
+  const match = /^(?:SSV)?(\d{1,9})$/.exec(text);
+  if (!match) return null;
+  const n = Number(match[1]);
+  return Number.isSafeInteger(n) && n > 0 ? n : null;
+};
+
 /** Prisma @db.Date columns come back as a Date at UTC midnight. */
 export const toYmd = (d: Date): string => d.toISOString().slice(0, 10);
 export const ymdToDate = (ymd: string): Date => new Date(`${ymd}T00:00:00.000Z`);

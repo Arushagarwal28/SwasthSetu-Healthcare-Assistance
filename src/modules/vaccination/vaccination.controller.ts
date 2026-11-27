@@ -54,7 +54,6 @@ export const worklist = wrap(async (req, res) => {
     days: queryInt(req, 'days', 7, 1, 90),
     page: queryInt(req, 'page', 1, 1, 100000),
     limit: queryInt(req, 'limit', 25, 1, 100),
-    facilityId: queryString(req, 'facilityId'),
     search: queryString(req, 'search'),
   });
   ok(res, data);

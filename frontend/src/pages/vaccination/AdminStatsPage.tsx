@@ -90,7 +90,7 @@ export default function AdminStatsPage() {
   if (error && !stats) return <ErrorBlock message={error} onRetry={() => void load()} />;
   if (!stats) return null;
 
-  const { children, doses, byVaccine, reminders, centres } = stats;
+  const { children, doses, activity, byVaccine, reminders, centres } = stats;
   const givenShare = share(doses.administered, doses.total);
 
   const doseRows: BarRow[] = [
@@ -103,7 +103,7 @@ export default function AdminStatsPage() {
   const kpis: Kpi[] = [
     { label: 'Children registered', value: children.total, hint: 'All records in the programme' },
     { label: 'New in the last 30 days', value: children.registeredLast30Days, hint: 'Registrations since 30 days ago' },
-    { label: 'Without a facility', value: children.withoutFacility, hint: 'Not yet linked to a centre', tone: children.withoutFacility > 0 ? 'warn' : 'plain' },
+    { label: 'Facilities with activity', value: activity.facilitiesWithActivity, hint: 'Facilities that have administered a recorded dose' },
     { label: 'Doses recorded', value: doses.total, hint: 'Every dose row in the programme' },
     { label: 'Doses administered', value: doses.administered, hint: `${givenShare}% of all recorded doses`, tone: 'ok' },
     { label: 'Overdue doses', value: doses.overdue, hint: 'Past due date and still open', tone: doses.overdue > 0 ? 'danger' : 'plain' },
@@ -230,12 +230,15 @@ export default function AdminStatsPage() {
       </Card>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        <Card title="Busiest centres" description="Top 10 facilities by registered children.">
-          {children.topFacilities.length === 0 ? (
-            <p className="text-sm text-slate-500">No children linked to a centre yet.</p>
+        <Card
+          title="Doses by facility"
+          description="Top 10 facilities by doses actually administered there. Children belong to no facility."
+        >
+          {activity.dosesByFacility.length === 0 ? (
+            <p className="text-sm text-slate-500">No doses have been attributed to a facility yet.</p>
           ) : (
             <ol className="space-y-2 text-sm">
-              {children.topFacilities.map((f, index) => (
+              {activity.dosesByFacility.map((f, index) => (
                 <li
                   key={f.facilityId}
                   className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 px-3 py-2"
@@ -244,7 +247,12 @@ export default function AdminStatsPage() {
                     <span className="mr-2 tabular-nums text-xs text-slate-400">{index + 1}.</span>
                     {f.name}
                   </span>
-                  <span className="tabular-nums font-medium text-slate-900">{count(f.count)}</span>
+                  <span className="tabular-nums font-medium text-slate-900">
+                    {count(f.total)}
+                    <span className="ml-2 text-xs font-normal text-slate-500">
+                      {count(f.last30Days)} in 30 days
+                    </span>
+                  </span>
                 </li>
               ))}
             </ol>

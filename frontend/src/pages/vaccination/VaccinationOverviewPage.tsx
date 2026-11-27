@@ -73,9 +73,9 @@ const ACCESS_NOTE: Record<VaccinationRole, string[]> = {
     'Assessments and referrals are unchanged by this module.',
   ],
   HOSPITAL_STAFF: [
-    'You see children assigned to a facility you are linked to.',
-    'A child is only visible once a facility is assigned at registration.',
-    'Recording a dose at a facility requires being linked to that facility.',
+    'The child registry is centralized: a child belongs to no facility.',
+    'You open a child by verifying their vaccination ID, guardian mobile and date of birth, which issues temporary access.',
+    'Each dose you record keeps the facility where it was given, and reminders never expose a child through a facility link.',
   ],
   ADMIN: [
     'You see aggregate counts only: no child names, mobiles or individual records.',

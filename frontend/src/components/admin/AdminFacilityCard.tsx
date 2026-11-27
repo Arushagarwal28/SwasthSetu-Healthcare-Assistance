@@ -1,10 +1,14 @@
-import { useState } from 'react';
-import type { AdminFacility } from '../../types/admin';
+import { useEffect, useState } from 'react';
+import type { AdminFacility, IssuedRegistrationCode } from '../../types/admin';
 import { FACILITY_TYPE_LABEL } from '../../types/admin';
-import { addSpecialty, linkStaff, removeSpecialty, setFacilityActive, unlinkStaff } from '../../api/admin';
+import {
+  addSpecialty, createFacilityCode, linkStaff, removeSpecialty, revokeFacilityCode,
+  rotateFacilityCode, setFacilityActive, setFacilityCodeExpiry, unlinkStaff,
+} from '../../api/admin';
 import { getApiErrorMessage } from '../../utils/errors';
 import Button from '../ui/Button';
 import ConfirmDialog from './ConfirmDialog';
+import RegistrationCodeReveal from './RegistrationCodeReveal';
 
 interface Props {
   facility: AdminFacility;
@@ -31,6 +35,16 @@ export default function AdminFacilityCard({ facility, specialtyOptions, onChange
   const [busy, setBusy] = useState<'specialty' | 'staff' | null>(null);
   const [error, setError] = useState('');
   const [confirm, setConfirm] = useState<PendingConfirm | null>(null);
+
+  // Facility registration code state (the code value itself is only ever shown once)
+  const [issued, setIssued] = useState<IssuedRegistrationCode | null>(null);
+  const [codeBusy, setCodeBusy] = useState<'create' | 'rotate' | 'revoke' | 'expiry' | null>(null);
+  const [codeError, setCodeError] = useState('');
+  const [expiryDate, setExpiryDate] = useState(facility.registrationCode?.expiresAt?.slice(0, 10) ?? '');
+
+  useEffect(() => {
+    setExpiryDate(facility.registrationCode?.expiresAt?.slice(0, 10) ?? '');
+  }, [facility.registrationCode?.expiresAt]);
 
   const available = specialtyOptions.filter((s) => !facility.specialties.includes(s));
 
@@ -74,6 +88,38 @@ export default function AdminFacilityCard({ facility, specialtyOptions, onChange
     setConfirm(c);
   };
 
+  const registrationCode = facility.registrationCode;
+  const codeStatusLabel = registrationCode
+    ? registrationCode.status === 'ACTIVE'
+      ? 'Active'
+      : registrationCode.status === 'EXPIRED'
+        ? 'Expired'
+        : 'Revoked'
+    : 'No code yet';
+  const codeStatusClass = registrationCode?.status === 'ACTIVE'
+    ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+    : registrationCode?.status === 'EXPIRED'
+      ? 'border-amber-200 bg-amber-50 text-amber-800'
+      : 'border-slate-300 bg-slate-100 text-slate-700';
+
+  const runCodeAction = async (
+    kind: 'create' | 'rotate' | 'revoke' | 'expiry',
+    action: () => Promise<IssuedRegistrationCode | void>,
+    notice: string,
+  ) => {
+    setCodeBusy(kind);
+    setCodeError('');
+    try {
+      const result = await action();
+      if (result && 'code' in result) setIssued(result);
+      await onChanged(notice);
+    } catch (err) {
+      setCodeError(getApiErrorMessage(err, 'Could not update the registration code.'));
+    } finally {
+      setCodeBusy(null);
+    }
+  };
+
   return (
     <article
       className={`rounded-2xl border bg-white p-5 shadow-sm flex flex-col gap-5 ${
@@ -108,6 +154,116 @@ export default function AdminFacilityCard({ facility, specialtyOptions, onChange
           {facility.latitude.toFixed(5)}, {facility.longitude.toFixed(5)}
         </p>
       )}
+
+      {/* Facility registration code */}
+      <section aria-label={`Registration code for ${facility.name}`}>
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <h4 className="text-sm font-medium text-slate-700">Registration code</h4>
+          <span className={`inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium ${codeStatusClass}`}>
+            {codeStatusLabel}
+          </span>
+        </div>
+
+        {registrationCode ? (
+          <p className="text-xs text-slate-500">
+            Created {new Date(registrationCode.createdAt).toLocaleDateString('en-IN', { timeZone: 'UTC' })}
+            {registrationCode.expiresAt
+              ? ` · expires ${new Date(registrationCode.expiresAt).toLocaleDateString('en-IN', { timeZone: 'UTC' })}`
+              : ' · no expiry'}
+            {registrationCode.revokedAt
+              ? ` · revoked ${new Date(registrationCode.revokedAt).toLocaleDateString('en-IN', { timeZone: 'UTC' })}`
+              : ''}
+          </p>
+        ) : (
+          <p className="text-xs text-slate-500">
+            No code yet, so no new staff member can register for this facility.
+          </p>
+        )}
+
+        <div className="mt-3 flex flex-wrap gap-2">
+          {!registrationCode && (
+            <Button
+              variant="secondary"
+              className="!px-3 !py-2"
+              loading={codeBusy === 'create'}
+              loadingText="Generating…"
+              onClick={() =>
+                runCodeAction('create', () => createFacilityCode(facility.id), `Registration code created for ${facility.name}.`)
+              }
+            >
+              Generate code
+            </Button>
+          )}
+          {registrationCode && registrationCode.status !== 'REVOKED' && (
+            <Button
+              variant="secondary"
+              className="!px-3 !py-2"
+              loading={codeBusy === 'rotate'}
+              loadingText="Rotating…"
+              onClick={() =>
+                runCodeAction('rotate', () => rotateFacilityCode(facility.id), `Registration code rotated for ${facility.name}.`)
+              }
+            >
+              Rotate code
+            </Button>
+          )}
+          {registrationCode?.status === 'ACTIVE' && (
+            <Button
+              variant="secondary"
+              className="!px-3 !py-2 text-red-600"
+              loading={codeBusy === 'revoke'}
+              loadingText="Revoking…"
+              onClick={() =>
+                runCodeAction('revoke', () => revokeFacilityCode(facility.id), `Registration code revoked for ${facility.name}.`)
+              }
+            >
+              Revoke
+            </Button>
+          )}
+        </div>
+
+        {registrationCode && registrationCode.status !== 'REVOKED' && (
+          <form
+            className="mt-3 flex flex-wrap items-end gap-2"
+            onSubmit={(ev) => {
+              ev.preventDefault();
+              void runCodeAction(
+                'expiry',
+                () => setFacilityCodeExpiry(facility.id, expiryDate ? `${expiryDate}T23:59:59.000Z` : null),
+                `Registration code expiry updated for ${facility.name}.`,
+              );
+            }}
+          >
+            <div>
+              <label htmlFor={`code-expiry-${facility.id}`} className="mb-1 block text-xs font-medium text-slate-600">
+                Expiry date (optional)
+              </label>
+              <input
+                id={`code-expiry-${facility.id}`}
+                type="date"
+                value={expiryDate}
+                min={new Date().toISOString().slice(0, 10)}
+                onChange={(e) => setExpiryDate(e.target.value)}
+                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              />
+            </div>
+            <Button type="submit" variant="secondary" className="!px-3 !py-2" loading={codeBusy === 'expiry'} loadingText="Saving…">
+              Save expiry
+            </Button>
+          </form>
+        )}
+
+        <p className="mt-2 text-xs text-slate-400">
+          Codes are stored only as a one-way keyed hash and are shown once. Rotating a code never
+          unlinks staff who already registered with it.
+        </p>
+
+        {codeError && (
+          <p role="alert" className="mt-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            {codeError}
+          </p>
+        )}
+      </section>
 
       {/* Specialties */}
       <section aria-label={`Specialties for ${facility.name}`}>
@@ -229,7 +385,7 @@ export default function AdminFacilityCard({ facility, specialtyOptions, onChange
           </Button>
         </form>
         <p className="text-xs text-slate-400 mt-1.5">
-          The person must first register as Hospital Staff with the hospital reference code.
+          The person must first register as Hospital Staff with this facility’s registration code.
         </p>
       </section>
 
@@ -282,6 +438,14 @@ export default function AdminFacilityCard({ facility, specialtyOptions, onChange
           </Button>
         )}
       </div>
+
+      {issued && (
+        <RegistrationCodeReveal
+          facilityName={facility.name}
+          issued={issued}
+          onClose={() => setIssued(null)}
+        />
+      )}
 
       {confirm && (
         <ConfirmDialog

@@ -10,6 +10,7 @@ import CentreDetailPage from './CentreDetailPage';
 import VaccinationStatsPage from './VaccinationStatsPage';
 import AdminStatsPage from './AdminStatsPage';
 import AdminSchedulePage from './AdminSchedulePage';
+import FindChildPage from './FindChildPage';
 
 /**
  * Vaccination module shell.
@@ -43,6 +44,18 @@ interface NavItem {
 const STAFF_NAV: NavItem[] = [
   { to: 'children', label: 'Children', end: true },
   { to: 'children/new', label: 'Register child', end: true },
+  { to: 'worklist', label: 'Worklist' },
+  { to: 'stats', label: 'Overview' },
+  { to: 'centres', label: 'Centres' },
+  { to: 'notifications', label: 'Notifications' },
+];
+
+// Hospital staff can also open a child registered at another facility, after
+// verifying the child with three identity fields (helpers must not see this).
+const HOSPITAL_NAV: NavItem[] = [
+  { to: 'children', label: 'Children', end: true },
+  { to: 'children/new', label: 'Register child', end: true },
+  { to: 'find-child', label: 'Find child', end: true },
   { to: 'worklist', label: 'Worklist' },
   { to: 'stats', label: 'Overview' },
   { to: 'centres', label: 'Centres' },
@@ -103,7 +116,8 @@ export default function VaccinationModule({
   const basePath = resolveBasePath(explicitBasePath, pathname);
   const role = accountRole ? ROLE_FROM_ACCOUNT[accountRole] : roleFromBasePath(basePath);
   const isAdmin = role === 'admin';
-  const navItems = isAdmin ? ADMIN_NAV : STAFF_NAV;
+  const isHospital = role === 'hospital';
+  const navItems = isAdmin ? ADMIN_NAV : isHospital ? HOSPITAL_NAV : STAFF_NAV;
   const home = isAdmin ? 'stats' : 'children';
 
   return (
@@ -167,6 +181,10 @@ export default function VaccinationModule({
             <Route path="children" element={<ChildrenListPage basePath={basePath} />} />
             <Route path="children/new" element={<RegisterChildPage basePath={basePath} />} />
             <Route path="children/:childId" element={<ChildRecordPage basePath={basePath} />} />
+            <Route
+              path="find-child"
+              element={isHospital ? <FindChildPage basePath={basePath} /> : <Navigate to={home} replace />}
+            />
             <Route path="worklist" element={<VaccinationWorklistPage />} />
             <Route path="stats" element={<VaccinationStatsPage />} />
             <Route path="notifications" element={<VaccinationNotificationsPage />} />
